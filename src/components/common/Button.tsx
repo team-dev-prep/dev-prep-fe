@@ -1,19 +1,17 @@
-import { useNavigate } from "react-router-dom";
-
 interface ButtonProps {
-  to: string;
   label: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Button = ({ to, label }: ButtonProps) => {
-  const navigate = useNavigate();
+const Button = ({ label, onClick }: ButtonProps) => {
   return (
     <button
-      onClick={() => navigate(to)}
-      className="bg-gray2 hover:bg-gray8 rounded-lg px-6 py-2 text-black transition hover:text-white"
+      onClick={onClick}
+      className="rounded-lg bg-gray2 px-6 py-2 text-black transition hover:bg-gray8 hover:text-white"
     >
       {label}
     </button>
   );
 };
+
 export default Button;
