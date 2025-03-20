@@ -1,8 +1,8 @@
-import { getQuestion, postUserAnswer } from "../utils/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnswerInput, Button, Counter, Question, Timer } from "../components/common";
+import { getQuestion, postUserAnswer } from "../utils/api";
 
 const Interview = () => {
   const questionId = 1; // 현재 MVP에서는 1번 질문만 조회 가능
