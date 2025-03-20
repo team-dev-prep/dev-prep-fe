@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import Interview from "./pages/InterView";
-import Feedback from "./pages/Feedback";
+import { Feedback, Interview } from "./pages";
 
 const Router = () => {
   return (
