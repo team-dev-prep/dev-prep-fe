@@ -1,11 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import AnswerInput from "../components/common/AnswerInput";
-import Button from "../components/common/Button";
-import Counter from "../components/common/Counter";
-import Question from "../components/common/Question";
 import { getAllAnswer } from "../utils/api";
 import { useNavigate } from "react-router-dom";
-import ModelAnswer from "../components/common/ModelAnswer";
+import { AnswerInput, Button, Counter, ModelAnswer, Question } from "../components/common";
 
 const Feedback = () => {
   const questionId = 1; // 현재 MVP에서는 1번 질문만 조회 가능
