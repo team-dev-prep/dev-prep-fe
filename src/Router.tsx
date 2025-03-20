@@ -8,7 +8,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Interview />} />
-          <Route path="interview" element={<Interview />} />
+          <Route path="/interview" element={<Interview />} />
         </Route>
       </Routes>
     </BrowserRouter>
