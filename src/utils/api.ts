@@ -30,3 +30,15 @@ export const postUserAnswer = async (questionId: number, content: string) => {
     throw error;
   }
 };
+
+export const getAllAnswer = async (id: number) => {
+  try {
+    const response = await apiClient.get(
+      `/${API_ENDPOINTS.INTERVIEW}/${API_ENDPOINTS.RESULT}/${id}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`[getAllAnswer] API 요청 중 오류 발생 (id: ${id}):`, error);
+    throw error;
+  }
+};
