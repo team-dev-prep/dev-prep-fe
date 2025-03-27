@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AnswerInput, Button, Counter, Question, Timer } from "../components/common";
 import { getQuestion, postUserAnswer } from "../utils/api";
 
-const Interview = () => {
+const InterviewPage = () => {
   const questionId = 1; // 현재 MVP에서는 1번 질문만 조회 가능
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
@@ -67,4 +67,4 @@ const Interview = () => {
   );
 };
 
-export default Interview;
+export default InterviewPage;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AnswerInput, Button, Counter, ModelAnswer, Question } from "../components/common";
 import { getAllAnswer } from "../utils/api";
 
-const Feedback = () => {
+const FeedbackPage = () => {
   const questionId = 1; // 현재 MVP에서는 1번 질문만 조회 가능
   const navigate = useNavigate();
 
@@ -43,4 +43,4 @@ const Feedback = () => {
   );
 };
 
-export default Feedback;
+export default FeedbackPage;
