@@ -33,7 +33,7 @@ const SelectBox = ({ options, placeholder, value, onChange }: SelectBoxProps) =>
     <div className="relative w-80">
       <button
         onClick={toggleDropdown}
-        className="w-full rounded-md border border-gray4 bg-white px-4 py-2 text-sm font-[400] text-gray6 shadow-sm focus:outline-none"
+        className="w-full rounded-md border border-gray4 bg-white px-4 py-2 text-base font-[400] text-gray6 shadow-sm focus:outline-none"
       >
         {value || placeholder}
         <span className="float-right text-xs text-gray5">{isOpen ? "▲" : "▼"}</span>
@@ -45,7 +45,7 @@ const SelectBox = ({ options, placeholder, value, onChange }: SelectBoxProps) =>
             <li
               key={option}
               onClick={() => handleSelect(option)}
-              className="cursor-pointer px-4 py-2 text-sm text-black hover:bg-gray1"
+              className="cursor-pointer px-4 py-2 text-base text-black hover:bg-gray1"
             >
               {option}
             </li>
