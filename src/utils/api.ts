@@ -9,6 +9,20 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
+export const postQuestionOption = async (techCount: number, personalityCount: number) => {
+  try {
+    const response = await apiClient.post(`/${API_ENDPOINTS.QUESTIONS}`, {
+      techCount,
+      personalityCount,
+      jobId: 0, // 현재는 무조건 0 (FE)
+    });
+    return response.data;
+  } catch (error) {
+    console.error("[postQuestionRequest] 질문 요청 중 오류:", error);
+    throw error;
+  }
+};
+
 export const getQuestion = async (id: number) => {
   try {
     const response = await apiClient.get(`/${API_ENDPOINTS.INTERVIEW}/${id}`);

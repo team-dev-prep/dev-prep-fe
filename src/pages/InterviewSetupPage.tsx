@@ -1,10 +1,33 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, SelectBox } from "../components/common";
+import { postQuestionOption } from "../utils/api";
 
 const InterviewSetupPage = () => {
+  const navigate = useNavigate();
   const [technicalCount, setTechnicalCount] = useState("");
   const [personalityCount, setPersonalityCount] = useState("");
   const countOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  const mutation = useMutation({
+    mutationFn: () => postQuestionOption(Number(technicalCount), Number(personalityCount)),
+    onSuccess: () => {
+      navigate("/interview");
+    },
+    onError: () => {
+      alert("인터뷰 시작 요청 중 오류가 발생했어요.");
+    },
+  });
+
+  const handleStartInterview = () => {
+    if (!technicalCount || !personalityCount) {
+      alert("질문 개수를 모두 선택해주세요.");
+      return;
+    }
+
+    mutation.mutate();
+  };
 
   return (
     <div className="flex w-full max-w-[1200px] flex-col" style={{ height: "calc(100vh - 130px)" }}>
@@ -35,7 +58,7 @@ const InterviewSetupPage = () => {
 
       {/* 버튼 영역 */}
       <div className="flex justify-end px-4 py-6">
-        <Button label="인터뷰 시작하기" />
+        <Button label="인터뷰 시작하기" onClick={handleStartInterview} />
       </div>
     </div>
   );
