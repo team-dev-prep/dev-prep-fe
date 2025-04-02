@@ -12,8 +12,8 @@ const InterviewSetupPage = () => {
 
   const mutation = useMutation({
     mutationFn: () => postQuestionOption(Number(technicalCount), Number(personalityCount)),
-    onSuccess: () => {
-      navigate("/interview");
+    onSuccess: (data) => {
+      navigate("/interview", { state: data });
     },
     onError: () => {
       alert("인터뷰 시작 요청 중 오류가 발생했어요.");

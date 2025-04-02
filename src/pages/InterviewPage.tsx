@@ -1,38 +1,40 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AnswerInput, Button, Counter, Question, Timer } from "../components/common";
-import { getQuestion, postUserAnswer } from "../utils/api";
+import { postUserAnswer } from "../utils/api";
 
 const InterviewPage = () => {
-  const questionId = 1; // 현재 MVP에서는 1번 질문만 조회 가능
-  const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userId, totalCount, questions } = location.state;
 
-  // 질문 조회 API
-  const {
-    data: question,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["question", questionId],
-    queryFn: () => getQuestion(questionId),
-  });
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answer, setAnswer] = useState("");
+
+  const currentQuestion = questions[currentQuestionIndex];
 
   // 답변 제출 API
   const mutation = useMutation({
-    mutationFn: () => postUserAnswer(questionId, answer),
+    mutationFn: () =>
+      postUserAnswer({
+        userId,
+        questionId: currentQuestion.id,
+        userAnswer: answer,
+      }),
     onSuccess: () => {
-      alert("답변이 성공적으로 제출되었습니다.");
-      navigate("/feedback");
+      if (currentQuestionIndex === questions.length - 1) {
+        alert("모든 답변이 성공적으로 제출되었습니다.");
+        navigate("/feedback", { state: { userId } }); // ✅ 이렇게 수정!
+      } else {
+        setCurrentQuestionIndex((prev) => prev + 1);
+        setAnswer("");
+      }
     },
     onError: () => {
       alert("답변 제출에 실패했습니다.");
     },
   });
-
-  if (isLoading) return <p>로딩 중...</p>;
-  if (isError || !question) return <p>질문을 불러오는 데 실패했습니다.</p>;
 
   return (
     <div
@@ -40,11 +42,11 @@ const InterviewPage = () => {
       style={{ height: "calc(100vh - 130px)" }}
     >
       <div className="flex w-full justify-center py-6">
-        <Timer />
+        <Timer key={currentQuestion.id} time={currentQuestion.time} />
       </div>
 
       <div className="flex w-full max-w-[1200px] flex-1 flex-col px-4">
-        <Question text={question.content} />
+        <Question text={currentQuestion.content} />
         <div className="flex flex-1">
           <AnswerInput isFixedHeight={true} onChange={(e) => setAnswer(e.target.value)} />
         </div>
@@ -52,10 +54,10 @@ const InterviewPage = () => {
 
       <div className="flex w-full max-w-[1200px] items-center justify-between p-4 pt-6">
         <div className="flex-1"></div>
-        <Counter current={1} total={1} />
+        <Counter current={currentQuestionIndex + 1} total={totalCount} />
         <div className="flex flex-1 justify-end">
           <Button
-            label="결과 보기"
+            label={currentQuestionIndex === questions.length - 1 ? "결과 보기" : "다음"}
             onClick={(event) => {
               event.preventDefault();
               mutation.mutate();
