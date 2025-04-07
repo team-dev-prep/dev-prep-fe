@@ -47,14 +47,16 @@ export const postUserAnswer = async ({
   }
 };
 
-export const getAllAnswer = async (id: number) => {
+// 질문, 사용자 답안, 모범 답안 가져오기
+export const getAllAnswer = async (userId: number) => {
   try {
-    const response = await apiClient.get(
-      `/${API_ENDPOINTS.INTERVIEW}/${API_ENDPOINTS.RESULT}/${id}`,
-    );
+    const response = await apiClient.get(`/${API_ENDPOINTS.RESULT}`, {
+      params: { userId },
+    });
+
     return response.data;
   } catch (error) {
-    console.error(`[getAllAnswer] API 요청 중 오류 발생 (id: ${id}):`, error);
+    console.error(`[getAllAnswer] API 요청 중 오류 발생 (userId: ${userId}):`, error);
     throw error;
   }
 };
