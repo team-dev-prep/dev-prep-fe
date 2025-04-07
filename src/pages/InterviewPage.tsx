@@ -25,7 +25,7 @@ const InterviewPage = () => {
     onSuccess: () => {
       if (currentQuestionIndex === questions.length - 1) {
         alert("모든 답변이 성공적으로 제출되었습니다.");
-        navigate("/feedback", { state: { userId } }); // ✅ 이렇게 수정!
+        navigate("/feedback", { state: { userId } });
       } else {
         setCurrentQuestionIndex((prev) => prev + 1);
         setAnswer("");
@@ -48,7 +48,12 @@ const InterviewPage = () => {
       <div className="flex w-full max-w-[1200px] flex-1 flex-col px-4">
         <Question text={currentQuestion.content} />
         <div className="flex flex-1">
-          <AnswerInput isFixedHeight={true} onChange={(e) => setAnswer(e.target.value)} />
+          <AnswerInput
+            key={currentQuestion.id}
+            isFixedHeight={true}
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+          />
         </div>
       </div>
 
