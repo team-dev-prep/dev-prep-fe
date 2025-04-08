@@ -18,9 +18,10 @@ const FeedbackPage = () => {
   });
 
   if (isLoading) return <p>로딩 중...</p>;
-  if (isError) return <p>답변을 불러오는 데 실패했습니다.</p>;
+  if (isError || !data) return <p>답변을 불러오는 데 실패했습니다.</p>;
 
-  const currentItem = data[currentQuestionIndex];
+  const { totalCount, results } = data;
+  const currentItem = results[currentQuestionIndex];
 
   return (
     <div
@@ -41,9 +42,9 @@ const FeedbackPage = () => {
 
       <div className="flex w-full max-w-[1200px] items-center justify-between p-4 pt-6">
         <div className="flex-1"></div>
-        <Counter current={1} total={1} />
+        <Counter current={currentQuestionIndex + 1} total={totalCount} />
         <div className="flex flex-1 justify-end">
-          {currentQuestionIndex === data.length - 1 ? (
+          {currentQuestionIndex === results.length - 1 ? (
             <Button label="나가기" onClick={() => navigate("/")} />
           ) : (
             <Button label="다음" onClick={() => setCurrentQuestionIndex((prev) => prev + 1)} />
