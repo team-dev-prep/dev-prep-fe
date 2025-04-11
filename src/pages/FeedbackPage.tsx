@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnswerInput, Button, Counter, ModelAnswer, Question } from "../components/common";
 import { getAllAnswer } from "../utils/api";
@@ -8,13 +8,13 @@ const FeedbackPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userId = location.state?.userId;
-  
-  // Redirect if no userId is provided
+
   useEffect(() => {
     if (!userId) {
-      navigate('/', { replace: true });
+      navigate("/", { replace: true });
     }
   }, [userId, navigate]);
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const { data, isLoading, isError } = useQuery({
