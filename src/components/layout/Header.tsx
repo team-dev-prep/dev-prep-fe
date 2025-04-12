@@ -23,7 +23,7 @@ const Header = () => {
         ) : (
           <Button onClick={() => {}} className="hover:bg-blue2 flex items-center gap-1 text-gray8">
             <img src="" alt="프로필" className="size-[28px] rounded-full" />
-            <p>Logout</p>
+            <p className="font-semibold">Logout</p>
           </Button>
         )}
       </div>
