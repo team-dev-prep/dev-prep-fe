@@ -45,7 +45,7 @@ const LandingPage = () => {
           </div>
         </div>
 
-        <div className="bg-blue1 shadow-sm09876 rounded-xl p-6">
+        <div className="bg-blue1 rounded-xl p-6 shadow-sm">
           <p className="mb-3 text-center text-3xl font-extrabold">맞춤형 피드백</p>
           <p className="whitespace-pre-line text-lg leading-relaxed">
             ✅ 핵심 개념에 대한 이해가 잘 드러나는 답변입니다. 싱글 스레드 환경에서의 실행 흐름과
