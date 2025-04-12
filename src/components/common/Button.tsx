@@ -1,13 +1,14 @@
 interface ButtonProps {
   label: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
 }
 
-const Button = ({ label, onClick }: ButtonProps) => {
+const Button = ({ label, onClick, className }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="rounded-lg bg-gray2 px-6 py-2 text-black transition hover:bg-gray8 hover:text-white"
+      className={`${className} rounded-lg px-6 py-2 transition-transform duration-200 hover:scale-105`}
     >
       {label}
     </button>

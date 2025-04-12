@@ -58,7 +58,11 @@ const InterviewSetupPage = () => {
 
       {/* 버튼 영역 */}
       <div className="flex justify-end px-4 py-6">
-        <Button label="인터뷰 시작하기" onClick={handleStartInterview} />
+        <Button
+          label="인터뷰 시작하기"
+          onClick={handleStartInterview}
+          className="bg-blue3 text-lg text-white shadow-md"
+        />
       </div>
     </div>
   );

@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/common";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-center gap-12 px-4"
@@ -19,7 +22,13 @@ const LandingPage = () => {
       </section>
 
       {/* 버튼 영역 */}
-      <Button label="시작하기" onClick={() => {}} />
+      <Button
+        label="시작하기"
+        onClick={() => {
+          navigate("/option");
+        }}
+        className="bg-blue3 text-2xl font-[600] text-white shadow-md"
+      />
 
       {/* 프리뷰 영역 */}
       <section className="mg-4px grid w-full grid-cols-2 gap-6">
