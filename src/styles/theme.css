@@ -36,6 +36,6 @@
 
 body {
   font-family: "Noto Sans KR", sans-serif;
-  background-color: var(--color-white);
+  background-color: var(--color-background);
   color: var(--color-black);
 }
