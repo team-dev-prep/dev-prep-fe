@@ -8,7 +8,10 @@ const Timer = ({ time }: TimerProps) => {
   const [remaining, setRemaining] = useState(time);
 
   useEffect(() => {
-    if (remaining <= 0) return;
+    if (remaining <= 0) {
+      alert("시간이 종료되었습니다.");
+      return;
+    }
 
     const interval = setInterval(() => {
       setRemaining((prev) => prev - 1);
