@@ -67,6 +67,7 @@ const InterviewPage = () => {
               event.preventDefault();
               mutation.mutate();
             }}
+            className="bg-blue3 text-lg text-white shadow-md"
           />
         </div>
       </div>

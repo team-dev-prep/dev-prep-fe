@@ -4,8 +4,8 @@ interface QuestionProps {
 
 const Question = ({ text }: QuestionProps) => {
   return (
-    <div className="mb-2 text-xl font-[800]">
-      Q. <span className="text-xl font-[800]">{text}</span>
+    <div className="mb-2 text-xl font-extrabold">
+      <span>Q. {text}</span>
     </div>
   );
 };

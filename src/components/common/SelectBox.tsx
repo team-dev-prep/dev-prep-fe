@@ -33,7 +33,7 @@ const SelectBox = ({ options, placeholder, value, onChange }: SelectBoxProps) =>
     <div className="relative w-[360px]" ref={containerRef}>
       <button
         onClick={toggleDropdown}
-        className="flex w-full items-center justify-between rounded-md border border-gray4 bg-white px-4 py-2 text-base font-[400] text-gray6 shadow-sm focus:outline-none"
+        className="flex w-full items-center justify-between rounded-md border border-gray4 bg-white px-4 py-2 text-base text-gray6 shadow-sm focus:outline-none"
       >
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">
           {value || placeholder}
