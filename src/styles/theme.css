@@ -17,6 +17,10 @@
   --color-gray7: #616161;
   --color-gray8: #424242;
   --color-black: #000000;
+  --color-background: #fffbfb;
+  --color-blue1: #f0fbff;
+  --color-blue2: #d9f2ff;
+  --color-blue3: #006fff;
 
   /* 폰트 사이즈 정의 */
   --text-xs: 12px;
