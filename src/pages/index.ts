@@ -1,2 +1,3 @@
-export { default as Feedback } from "./Feedback";
-export { default as Interview } from "./Interview";
+export { default as FeedbackPage } from "./FeedbackPage";
+export { default as InterviewPage } from "./InterviewPage";
+export { default as InterviewSetupPage } from "./InterviewSetupPage";
