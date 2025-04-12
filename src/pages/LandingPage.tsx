@@ -27,16 +27,18 @@ const LandingPage = () => {
         onClick={() => {
           navigate("/option");
         }}
-        className="bg-blue3 text-2xl font-[600] text-white shadow-md"
+        className="bg-blue3 text-2xl font-semibold text-white shadow-md"
       />
 
       {/* 프리뷰 영역 */}
       <section className="mg-4px grid w-full grid-cols-2 gap-6">
         <div className="bg-blue1 shadow-s rounded-xl p-6">
           <div className="mx-auto mb-8 flex w-40 items-center justify-center rounded-lg border-2 border-gray4 px-4 py-2">
-            <p className="text-center font-keania text-3xl font-[800]">10:00</p>
+            <p className="text-center font-keania text-3xl font-extrabold">10:00</p>
           </div>
-          <p className="mb-3 text-xl font-[600]">Q. 이벤트 루프(Event Loop)에 대해 설명하세요.</p>
+          <p className="mb-3 text-xl font-semibold">
+            Q. 이벤트 루프(Event Loop)에 대해 설명하세요.
+          </p>
           <div className="py-30 rounded-lg border border-gray2 bg-white px-4 py-32 text-gray6">
             주어진 시간 내에 답변을 완성해 보세요. <br />
             간단한 키워드 작성이라도 좋아요.
@@ -44,7 +46,7 @@ const LandingPage = () => {
         </div>
 
         <div className="bg-blue1 shadow-sm09876 rounded-xl p-6">
-          <p className="mb-3 text-center text-3xl font-[800]">맞춤형 피드백</p>
+          <p className="mb-3 text-center text-3xl font-extrabold">맞춤형 피드백</p>
           <p className="whitespace-pre-line text-lg leading-relaxed">
             ✅ 핵심 개념에 대한 이해가 잘 드러나는 답변입니다. 싱글 스레드 환경에서의 실행 흐름과
             함께, 콜백 큐와 이벤트 루프 간의 상호작용을 잘 설명해주셨습니다. <br />

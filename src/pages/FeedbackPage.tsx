@@ -37,11 +37,11 @@ const FeedbackPage = () => {
       <div className="flex w-full max-w-[1200px] flex-1 flex-col px-4 py-6">
         <Question text={currentItem.content} />
         <div className="mb-2 flex flex-col">
-          <span className="py-1 font-[600] text-gray8">작성 답안</span>
+          <span className="py-1 font-semibold text-gray8">작성 답안</span>
           <AnswerInput value={currentItem.userAnswer} readOnly={true} />
         </div>
         <div className="flex flex-col">
-          <span className="py-1 font-[600] text-gray8">모범 답안</span>
+          <span className="py-1 font-semibold text-gray8">모범 답안</span>
           <ModelAnswer text={currentItem.modelAnswer} />
         </div>
       </div>

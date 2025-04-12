@@ -35,7 +35,7 @@ const InterviewSetupPage = () => {
       <div className="flex flex-1 items-center justify-center">
         <div className="flex flex-col gap-[32px]">
           <div className="flex items-center justify-center gap-[24px]">
-            <div className="text-2xl font-[600]">인성 질문</div>
+            <div className="text-2xl font-semibold">인성 질문</div>
             <SelectBox
               options={countOptions}
               placeholder="인성 질문 개수를 선택하세요 (최대 10개)"
@@ -45,7 +45,7 @@ const InterviewSetupPage = () => {
           </div>
 
           <div className="flex items-center justify-center gap-[24px]">
-            <div className="text-2xl font-[600]">기술 질문</div>
+            <div className="text-2xl font-semibold">기술 질문</div>
             <SelectBox
               options={countOptions}
               placeholder="기술 질문 개수를 선택하세요 (최대 10개)"

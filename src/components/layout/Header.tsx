@@ -4,8 +4,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="border-gray2 flex h-[70px] w-full items-center justify-start border-b border-solid">
-      <button onClick={() => navigate("/")} className="px-4 text-xl font-[900]">
+    <header className="flex h-[70px] w-full items-center justify-start border-b border-solid border-gray2">
+      <button onClick={() => navigate("/")} className="px-4 text-xl font-black">
         DevPrep
       </button>
     </header>
