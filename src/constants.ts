@@ -6,5 +6,6 @@ export const API_ENDPOINTS = {
   RESULT: "result",
   AUTH: {
     LOGIN: "api/auth/github/callback",
+    ME: "api/auth/me",
   },
 };
