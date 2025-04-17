@@ -1,6 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import { FeedbackPage, InterviewPage, InterviewSetupPage, LandingPage } from "./pages";
+import {
+  FeedbackPage,
+  InterviewPage,
+  InterviewSetupPage,
+  LandingPage,
+  OAuthCallbackPage,
+} from "./pages";
 
 const Router = () => {
   return (
@@ -11,6 +17,7 @@ const Router = () => {
           <Route path="option" element={<InterviewSetupPage />} />
           <Route path="interview" element={<InterviewPage />} />
           <Route path="feedback" element={<FeedbackPage />} />
+          <Route path="oauth/callback" element={<OAuthCallbackPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
