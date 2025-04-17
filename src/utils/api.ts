@@ -90,7 +90,7 @@ export const getCurrentUser = async () => {
 // 깃허브 로그아웃 요청
 export const postGithubLogout = async () => {
   try {
-    await apiClient.post("/auth/logout");
+    await apiClient.post(`/${API_ENDPOINTS.AUTH.LOGOUT}`);
   } catch (error) {
     console.error("[githubLogout] GitHub 로그아웃 중 오류 발생:", error);
   }

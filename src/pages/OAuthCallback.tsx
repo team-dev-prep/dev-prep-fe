@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { ROUTES } from "../constants";
 import { postGithubLogin } from "../utils/api";
 
 const OAuthCallback = () => {
@@ -12,11 +13,11 @@ const OAuthCallback = () => {
     if (code) {
       postGithubLogin(code)
         .then(() => {
-          navigate("/");
+          navigate(ROUTES.ROOT);
         })
         .catch(() => {
           alert("로그인 실패");
-          navigate("/");
+          navigate(ROUTES.ROOT);
         });
     }
   }, []);

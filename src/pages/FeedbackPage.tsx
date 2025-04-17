@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnswerInput, Button, Counter, ModelAnswer, Question } from "../components/common";
+import { ROUTES } from "../constants";
 import { getAllAnswer } from "../utils/api";
 
 const FeedbackPage = () => {
@@ -11,7 +12,7 @@ const FeedbackPage = () => {
 
   useEffect(() => {
     if (!userId) {
-      navigate("/", { replace: true });
+      navigate(ROUTES.ROOT, { replace: true });
     }
   }, [userId, navigate]);
 
@@ -53,7 +54,7 @@ const FeedbackPage = () => {
           {currentQuestionIndex === results.length - 1 ? (
             <Button
               label="나가기"
-              onClick={() => navigate("/")}
+              onClick={() => navigate(ROUTES.ROOT)}
               className="bg-blue3 text-lg text-white shadow-md"
             />
           ) : (

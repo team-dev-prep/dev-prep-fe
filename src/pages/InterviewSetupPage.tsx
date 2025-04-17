@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, SelectBox } from "../components/common";
+import { ROUTES } from "../constants";
 import { postQuestionOption } from "../utils/api";
 
 const InterviewSetupPage = () => {
@@ -13,7 +14,7 @@ const InterviewSetupPage = () => {
   const mutation = useMutation({
     mutationFn: () => postQuestionOption(Number(technicalCount), Number(personalityCount)),
     onSuccess: (data) => {
-      navigate("/interview", { state: data });
+      navigate(`/${ROUTES.INTERVIEW}`, { state: data });
     },
     onError: () => {
       alert("인터뷰 시작 요청 중 오류가 발생했어요.");

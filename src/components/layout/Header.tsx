@@ -1,6 +1,7 @@
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants";
 import { getCurrentUser, postGithubLogout } from "../../utils/api";
 import { Button } from "../common";
 
@@ -30,14 +31,18 @@ const Header = () => {
     postGithubLogout().then(() => {
       setIsLogin(false);
       setUserInfo(null);
-      navigate("/");
+      navigate(ROUTES.ROOT);
     });
   };
 
   return (
     <header className="flex h-[70px] w-full items-center justify-between border-b border-solid border-gray2">
       {/* 로고 */}
-      <Button label={"DevPrep"} onClick={() => navigate("/")} className="px-4 text-xl font-black" />
+      <Button
+        label={"DevPrep"}
+        onClick={() => navigate(ROUTES.ROOT)}
+        className="px-4 text-xl font-black"
+      />
 
       {/* 로그인/로그아웃 영역 */}
       <div>

@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnswerInput, Button, Counter, Question, Timer } from "../components/common";
+import { ROUTES } from "../constants";
 import { postUserAnswer } from "../utils/api";
 
 const InterviewPage = () => {
@@ -25,7 +26,7 @@ const InterviewPage = () => {
     onSuccess: () => {
       if (currentQuestionIndex === questions.length - 1) {
         alert("모든 답변이 성공적으로 제출되었습니다.");
-        navigate("/feedback", { state: { userId } });
+        navigate(`/${ROUTES.FEEDBACK}`, { state: { userId } });
       } else {
         setCurrentQuestionIndex((prev) => prev + 1);
         setAnswer("");

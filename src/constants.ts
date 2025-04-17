@@ -11,3 +11,11 @@ export const API_ENDPOINTS = {
     LOGOUT: "api/auth/logout",
   },
 };
+
+export const ROUTES = {
+  ROOT: "/",
+  OPTION: "option",
+  INTERVIEW: "interview",
+  FEEDBACK: "feedback",
+  OAUTH_CALLBACK: "oauth/callback",
+};
