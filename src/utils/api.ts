@@ -86,3 +86,12 @@ export const getCurrentUser = async () => {
     return null;
   }
 };
+
+// 깃허브 로그아웃 요청
+export const postGithubLogout = async () => {
+  try {
+    await apiClient.post("/auth/logout");
+  } catch (error) {
+    console.error("[githubLogout] GitHub 로그아웃 중 오류 발생:", error);
+  }
+};

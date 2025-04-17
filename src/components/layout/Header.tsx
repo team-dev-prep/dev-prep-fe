@@ -1,7 +1,7 @@
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser } from "../../utils/api";
+import { getCurrentUser, postGithubLogout } from "../../utils/api";
 import { Button } from "../common";
 
 const Header = () => {
@@ -26,6 +26,14 @@ const Header = () => {
     window.location.href = githubAuthUrl;
   };
 
+  const handleGithubLogout = () => {
+    postGithubLogout().then(() => {
+      setIsLogin(false);
+      setUserInfo(null);
+      navigate("/");
+    });
+  };
+
   return (
     <header className="flex h-[70px] w-full items-center justify-between border-b border-solid border-gray2">
       {/* 로고 */}
@@ -34,7 +42,10 @@ const Header = () => {
       {/* 로그인/로그아웃 영역 */}
       <div>
         {isLogin ? (
-          <Button onClick={() => {}} className="flex items-center gap-1 text-gray8 hover:bg-blue2">
+          <Button
+            onClick={handleGithubLogout}
+            className="flex items-center gap-1 text-gray8 hover:bg-blue2"
+          >
             <img src={userInfo?.avatar_url} alt="프로필" className="size-[28px] rounded-full" />
             <p className="font-semibold">Logout</p>
           </Button>
