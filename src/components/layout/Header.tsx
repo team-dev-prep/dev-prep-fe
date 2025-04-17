@@ -23,17 +23,17 @@ const Header = () => {
       {/* 로그인/로그아웃 영역 */}
       <div>
         {isLogin ? (
+          <Button onClick={() => {}} className="flex items-center gap-1 text-gray8 hover:bg-blue2">
+            <img src="" alt="프로필" className="size-[28px] rounded-full" />
+            <p className="font-semibold">Logout</p>
+          </Button>
+        ) : (
           <Button
             onClick={handleGithubLogin}
             className="flex items-center gap-1 text-gray8 hover:bg-blue2"
           >
             <UserCircleIcon className="size-[28px]" />
             <p className="font-semibold">Login</p>
-          </Button>
-        ) : (
-          <Button onClick={() => {}} className="flex items-center gap-1 text-gray8 hover:bg-blue2">
-            <img src="" alt="프로필" className="size-[28px] rounded-full" />
-            <p className="font-semibold">Logout</p>
           </Button>
         )}
       </div>
