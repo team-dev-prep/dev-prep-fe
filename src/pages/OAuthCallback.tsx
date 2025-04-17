@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { githubLogin } from "../utils/api";
+import { postGithubLogin } from "../utils/api";
 
 const OAuthCallback = () => {
   const [searchParams] = useSearchParams();
@@ -10,7 +10,7 @@ const OAuthCallback = () => {
     const code = searchParams.get("code");
 
     if (code) {
-      githubLogin(code)
+      postGithubLogin(code)
         .then(() => {
           navigate("/");
         })

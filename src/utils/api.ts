@@ -61,16 +61,14 @@ export const getAllAnswer = async (userId: number) => {
   }
 };
 
-// 깃허브 로그인 처리
-export const githubLogin = async (code: string) => {
+// 깃허브 로그인 요청
+export const postGithubLogin = async (code: string) => {
   try {
-    const response = await apiClient.get(`/api/auth/github/callback`, {
-      params: { code },
-    });
+    const response = await apiClient.post(`/${API_ENDPOINTS.AUTH.LOGIN}`, { code });
 
     return response.data;
   } catch (error) {
-    console.error(`[githubLogin] GitHub 로그인 중 오류 발생:`, error);
+    console.error(`[postGithubLogin] GitHub 로그인 중 오류 발생:`, error);
     throw error;
   }
 };

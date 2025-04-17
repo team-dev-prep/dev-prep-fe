@@ -4,4 +4,7 @@ export const API_ENDPOINTS = {
   QUESTION: "question",
   ANSWERS: "answers",
   RESULT: "result",
+  AUTH: {
+    LOGIN: "api/auth/github/callback",
+  },
 };
