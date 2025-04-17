@@ -60,3 +60,17 @@ export const getAllAnswer = async (userId: number) => {
     throw error;
   }
 };
+
+// 깃허브 로그인 처리
+export const githubLogin = async (code: string) => {
+  try {
+    const response = await apiClient.get(`/api/auth/github/callback`, {
+      params: { code },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(`[githubLogin] GitHub 로그인 중 오류 발생:`, error);
+    throw error;
+  }
+};
