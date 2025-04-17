@@ -1,11 +1,22 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "../common";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../../utils/api";
+import { Button } from "../common";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState<{ avatar_url: string } | null>(null);
+
+  useEffect(() => {
+    getCurrentUser().then((user) => {
+      if (user) {
+        setIsLogin(true);
+        setUserInfo(user);
+      }
+    });
+  }, []);
 
   const handleGithubLogin = () => {
     const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
@@ -24,7 +35,7 @@ const Header = () => {
       <div>
         {isLogin ? (
           <Button onClick={() => {}} className="flex items-center gap-1 text-gray8 hover:bg-blue2">
-            <img src="" alt="프로필" className="size-[28px] rounded-full" />
+            <img src={userInfo?.avatar_url} alt="프로필" className="size-[28px] rounded-full" />
             <p className="font-semibold">Logout</p>
           </Button>
         ) : (
