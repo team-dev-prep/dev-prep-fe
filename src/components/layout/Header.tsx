@@ -1,23 +1,12 @@
 import { UserCircleIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants";
-import { getCurrentUser, postGithubLogout } from "../../utils/api";
+import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../common";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
-  const [userInfo, setUserInfo] = useState<{ avatar_url: string } | null>(null);
-
-  useEffect(() => {
-    getCurrentUser().then((user) => {
-      if (user) {
-        setIsLogin(true);
-        setUserInfo(user);
-      }
-    });
-  }, []);
+  const { user, isLogin, logout } = useAuth();
 
   const handleGithubLogin = () => {
     const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
@@ -27,31 +16,17 @@ const Header = () => {
     window.location.href = githubAuthUrl;
   };
 
-  const handleGithubLogout = () => {
-    postGithubLogout().then(() => {
-      setIsLogin(false);
-      setUserInfo(null);
-      navigate(ROUTES.ROOT);
-    });
-  };
-
   return (
     <header className="flex h-[70px] w-full items-center justify-between border-b border-solid border-gray2">
-      {/* 로고 */}
       <Button
         label={"DevPrep"}
         onClick={() => navigate(ROUTES.ROOT)}
         className="px-4 text-xl font-black"
       />
-
-      {/* 로그인/로그아웃 영역 */}
       <div>
         {isLogin ? (
-          <Button
-            onClick={handleGithubLogout}
-            className="flex items-center gap-1 text-gray8 hover:bg-blue2"
-          >
-            <img src={userInfo?.avatar_url} alt="프로필" className="size-[28px] rounded-full" />
+          <Button onClick={logout} className="flex items-center gap-1 text-gray8 hover:bg-blue2">
+            <img src={user?.avatar_url} alt="프로필" className="size-[28px] rounded-full" />
             <p className="font-semibold">Logout</p>
           </Button>
         ) : (
