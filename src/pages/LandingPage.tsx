@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/common";
+import { ROUTES } from "../constants";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -25,14 +26,14 @@ const LandingPage = () => {
       <Button
         label="시작하기"
         onClick={() => {
-          navigate("/option");
+          navigate(`/${ROUTES.OPTION}`);
         }}
         className="bg-blue3 text-2xl font-semibold text-white shadow-md"
       />
 
       {/* 프리뷰 영역 */}
       <section className="mg-4px grid w-full grid-cols-2 gap-6">
-        <div className="bg-blue1 shadow-s rounded-xl p-6">
+        <div className="shadow-s rounded-xl bg-blue1 p-6">
           <div className="mx-auto mb-8 flex w-40 items-center justify-center rounded-lg border-2 border-gray4 px-4 py-2">
             <p className="text-center font-keania text-3xl font-extrabold">10:00</p>
           </div>
@@ -45,7 +46,7 @@ const LandingPage = () => {
           </div>
         </div>
 
-        <div className="bg-blue1 rounded-xl p-6 shadow-sm">
+        <div className="rounded-xl bg-blue1 p-6 shadow-sm">
           <p className="mb-3 text-center text-3xl font-extrabold">맞춤형 피드백</p>
           <p className="whitespace-pre-line text-lg leading-relaxed">
             ✅ 핵심 개념에 대한 이해가 잘 드러나는 답변입니다. 싱글 스레드 환경에서의 실행 흐름과

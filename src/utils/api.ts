@@ -17,9 +17,10 @@ export const postQuestionOption = async (techCount: number, personalityCount: nu
       personalityCount,
       jobId: 0, // 현재는 무조건 0 (FE)
     });
+
     return response.data; // userId, totalCount, questions[]
   } catch (error) {
-    console.error("[postQuestionRequest] 질문 요청 중 오류:", error);
+    console.error("[postQuestionRequest] 질문 요청 중 오류 발생: ", error);
     throw error;
   }
 };
@@ -40,9 +41,10 @@ export const postUserAnswer = async ({
       questionId,
       userAnswer,
     });
+
     return response.data;
   } catch (error) {
-    console.error(`[postUserAnswer] API 요청 중 오류 발생 (questionId: ${questionId}):`, error);
+    console.error(`[postUserAnswer] API 요청 중 오류 발생 (questionId: ${questionId}): `, error);
     throw error;
   }
 };
@@ -56,7 +58,41 @@ export const getAllAnswer = async (userId: number) => {
 
     return response.data;
   } catch (error) {
-    console.error(`[getAllAnswer] API 요청 중 오류 발생 (userId: ${userId}):`, error);
+    console.error(`[getAllAnswer] API 요청 중 오류 발생 (userId: ${userId}): `, error);
+    throw error;
+  }
+};
+
+// 깃허브 로그인 요청
+export const postGithubLogin = async (code: string) => {
+  try {
+    const response = await apiClient.post(`/${API_ENDPOINTS.AUTH.LOGIN}`, { code });
+
+    return response.data;
+  } catch (error) {
+    console.error("[postGithubLogin] GitHub 로그인 중 오류 발생: ", error);
+    throw error;
+  }
+};
+
+// 현재 로그인한 유저 정보 가져오기
+export const getCurrentUser = async () => {
+  try {
+    const response = await apiClient.get(`/${API_ENDPOINTS.AUTH.ME}`);
+
+    return response.data;
+  } catch (error) {
+    console.error("[getCurrentUser] 로그인 정보 가져오는 중 오류 발생: ", error);
+    throw error;
+  }
+};
+
+// 깃허브 로그아웃 요청
+export const postGithubLogout = async () => {
+  try {
+    await apiClient.post(`/${API_ENDPOINTS.AUTH.LOGOUT}`);
+  } catch (error) {
+    console.error("[githubLogout] GitHub 로그아웃 중 오류 발생:", error);
     throw error;
   }
 };
