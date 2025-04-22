@@ -17,7 +17,11 @@ const OAuthCallback = () => {
       calledRef.current = true;
 
       try {
-        await loginWithCode(code!);
+        if (code) {
+          await loginWithCode(code);
+        } else {
+          throw new Error("Authorization code not found in URL");
+        }
         navigate(ROUTES.ROOT);
       } catch (e) {
         alert("로그인 실패");
@@ -26,7 +30,7 @@ const OAuthCallback = () => {
     };
 
     if (code) login();
-  }, []);
+  }, [searchParams, navigate, loginWithCode]);
 
   return <div className="p-4 text-center">GitHub 로그인 처리 중...</div>;
 };
