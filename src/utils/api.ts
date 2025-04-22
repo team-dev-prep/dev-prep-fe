@@ -83,7 +83,7 @@ export const getCurrentUser = async () => {
     return response.data;
   } catch (error) {
     console.error("[getCurrentUser] 로그인 정보 가져오는 중 오류 발생: ", error);
-    return null;
+    throw error;
   }
 };
 
@@ -93,5 +93,6 @@ export const postGithubLogout = async () => {
     await apiClient.post(`/${API_ENDPOINTS.AUTH.LOGOUT}`);
   } catch (error) {
     console.error("[githubLogout] GitHub 로그아웃 중 오류 발생:", error);
+    throw error;
   }
 };
