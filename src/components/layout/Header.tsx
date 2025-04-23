@@ -32,7 +32,7 @@ const Header = () => {
       <div>
         {isLogin ? (
           <Button onClick={logout} className="flex items-center gap-1 text-gray8 hover:bg-blue2">
-            <img src={user?.avatar_url} alt="프로필" className="size-[28px] rounded-full" />
+            <img src={user?.avatar} alt="프로필" className="size-[28px] rounded-full" />
             <p className="font-semibold">Logout</p>
           </Button>
         ) : (
