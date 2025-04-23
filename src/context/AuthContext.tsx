@@ -4,7 +4,9 @@ import { ROUTES } from "../constants";
 import { getCurrentUser, postGithubLogin, postGithubLogout } from "../utils/api";
 
 interface User {
-  avatar_url: string;
+  id: number;
+  name: string;
+  avatar: string;
 }
 
 export interface AuthContextType {
