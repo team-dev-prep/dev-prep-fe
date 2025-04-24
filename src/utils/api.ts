@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL, API_ENDPOINTS } from "../constants";
 
+// axios 인스턴스 생성
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -8,6 +9,32 @@ export const apiClient = axios.create({
   },
   withCredentials: true,
 });
+
+// 응답 인터셉터: Access Token 만료 시 자동 재발급
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // 401 에러 && 아직 재시도하지 않은 요청인 경우
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        // Refresh Token으로 Access Token 재발급
+        await postRefreshAccessToken();
+        // 기존 요청 재시도
+        return apiClient(originalRequest);
+      } catch (refreshError) {
+        // 재발급 실패 → 로그아웃 처리
+        window.location.href = "/";
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 // 기술 질문, 인성 질문 개수 선택하기
 export const postQuestionOption = async (techCount: number, personalityCount: number) => {
@@ -93,6 +120,16 @@ export const postGithubLogout = async () => {
     await apiClient.post(`/${API_ENDPOINTS.AUTH.LOGOUT}`);
   } catch (error) {
     console.error("[githubLogout] GitHub 로그아웃 중 오류 발생:", error);
+    throw error;
+  }
+};
+
+// Refresh Token으로 Access Token 재발급
+export const postRefreshAccessToken = async () => {
+  try {
+    await apiClient.post(`/${API_ENDPOINTS.AUTH.REFRESH}`);
+  } catch (error) {
+    console.error("[postRefreshAccessToken] 토큰 재발급 실패:", error);
     throw error;
   }
 };
