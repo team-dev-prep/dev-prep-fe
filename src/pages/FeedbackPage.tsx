@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getAllAnswer } from "../api/question";
 import { AnswerInput, Button, Counter, ModelAnswer, Question } from "../components/common";
 import { ROUTES } from "../constants";
-import { getAllAnswer } from "../utils/api";
 
 const FeedbackPage = () => {
   const navigate = useNavigate();

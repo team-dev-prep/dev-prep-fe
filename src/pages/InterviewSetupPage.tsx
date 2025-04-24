@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { postQuestionOption } from "../api/question";
 import { Button, SelectBox } from "../components/common";
 import { ROUTES } from "../constants";
-import { postQuestionOption } from "../utils/api";
 
 const InterviewSetupPage = () => {
   const navigate = useNavigate();

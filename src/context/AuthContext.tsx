@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser, postGithubLogin, postGithubLogout } from "../api/auth";
 import { LoadingFallback } from "../components/common";
 import { ROUTES } from "../constants";
-import { getCurrentUser, postGithubLogin, postGithubLogout } from "../utils/api";
 
 interface User {
   id: number;
