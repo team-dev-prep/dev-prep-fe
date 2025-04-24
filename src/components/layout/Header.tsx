@@ -9,6 +9,11 @@ const Header = () => {
   const { user, isLogin, logout } = useAuth();
 
   const handleGithubLogin = () => {
+    if (isLogin) {
+      navigate(ROUTES.ROOT);
+      return;
+    }
+
     const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI;
 
