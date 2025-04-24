@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { LoadingFallback } from "../components/common";
 import { ROUTES } from "../constants";
 import { useAuth } from "../hooks/useAuth";
 
@@ -32,7 +33,7 @@ const OAuthCallback = () => {
     if (code) login();
   }, [searchParams, navigate, loginWithCode]);
 
-  return <div className="p-4 text-center">GitHub 로그인 처리 중...</div>;
+  return <LoadingFallback message="GitHub 로그인 처리 중입니다..." />;
 };
 
 export default OAuthCallback;
