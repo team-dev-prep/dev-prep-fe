@@ -1,5 +1,6 @@
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../../api/auth";
 import { ROUTES } from "../../constants";
 import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../common";
@@ -8,23 +9,22 @@ const Header = () => {
   const navigate = useNavigate();
   const { user, isLogin, logout } = useAuth();
 
-  const handleGithubLogin = () => {
+  const handleGithubLogin = async () => {
     if (isLogin) {
       navigate(ROUTES.ROOT);
       return;
     }
 
-    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-    const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI;
+    try {
+      await getCurrentUser();
+      navigate(ROUTES.ROOT);
+    } catch {
+      const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
+      const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI;
+      const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user user:email`;
 
-    if (!clientId || !redirectUri) {
-      console.error("GitHub OAuth configuration is missing");
-      return;
+      window.location.href = githubAuthUrl;
     }
-
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user user:email`;
-
-    window.location.href = githubAuthUrl;
   };
 
   return (
