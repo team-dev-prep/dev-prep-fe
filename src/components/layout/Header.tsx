@@ -7,15 +7,23 @@ import { Button } from "../common";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { user, isLogin, logout } = useAuth();
+  const { user, isLogin, logout, setUser } = useAuth();
 
   const handleGithubLogin = async () => {
     if (isLogin) return navigate(ROUTES.ROOT);
 
     try {
-      await getCurrentUser();
-      navigate(ROUTES.ROOT);
+      const user = await getCurrentUser();
+
+      if (user) {
+        // 서버에 사용자 정보가 있다면 자동 로그인
+        setUser(user);
+        navigate(ROUTES.ROOT);
+      } else {
+        throw new Error("유저 정보 없음");
+      }
     } catch {
+      // GitHub OAuth로 이동
       redirectToGithubAuthorize();
     }
   };

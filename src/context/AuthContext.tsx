@@ -1,8 +1,9 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser, postGithubLogin, postGithubLogout } from "../api/auth";
 import { LoadingFallback } from "../components/common";
 import { ROUTES } from "../constants";
+import { resetAuthState } from "../state/authState";
 
 interface User {
   id: number;
@@ -22,31 +23,20 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const [isLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        if (user) setUser(user);
-      } catch {
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchUser();
-  }, []);
+  const navigate = useNavigate();
 
   const loginWithCode = async (code: string) => {
     await postGithubLogin(code);
     const user = await getCurrentUser();
     setUser(user);
+    navigate(ROUTES.ROOT);
   };
 
   const logout = async () => {
     await postGithubLogout();
+    resetAuthState();
     setUser(null);
     navigate(ROUTES.ROOT);
   };
