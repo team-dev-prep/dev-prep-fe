@@ -23,7 +23,6 @@ const OAuthCallback = () => {
         console.error("GitHub 로그인 실패:", e);
         alert("로그인 실패");
       } finally {
-        window.history.replaceState({}, "", ROUTES.ROOT);
         navigate(ROUTES.ROOT, { replace: true });
       }
     };
