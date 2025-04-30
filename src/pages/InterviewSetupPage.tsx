@@ -16,8 +16,8 @@ const InterviewSetupPage = () => {
     onSuccess: (data) => {
       navigate(`/${ROUTES.INTERVIEW}`, { state: data });
     },
-    onError: () => {
-      alert("인터뷰 시작 요청 중 오류가 발생했어요.");
+    onError: (error) => {
+      alert((error as Error).message);
     },
   });
 

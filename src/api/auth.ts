@@ -11,8 +11,7 @@ export const postGithubLogin = async (code: string) => {
     return response.data;
   } catch (error) {
     console.error("[postGithubLogin] 요청 실패:", error);
-
-    throw error;
+    throw new Error("GitHub 로그인에 실패했어요. 잠시 후 다시 시도해주세요.");
   }
 };
 
@@ -24,8 +23,7 @@ export const getCurrentUser = async () => {
     return response.data;
   } catch (error) {
     console.error("[getCurrentUser] 요청 실패:", error);
-
-    throw error;
+    throw new Error("사용자 정보를 불러오지 못했어요. 잠시 후 다시 시도해주세요.");
   }
 };
 
@@ -35,8 +33,7 @@ export const postGithubLogout = async () => {
     await apiClient.post(`/${API_ENDPOINTS.AUTH.LOGOUT}`);
   } catch (error) {
     console.error("[postGithubLogout] 요청 실패:", error);
-
-    throw error;
+    throw new Error("로그아웃 도중 문제가 발생했어요. 잠시 후 다시 시도해주세요.");
   }
 };
 
@@ -46,7 +43,6 @@ export const postRefreshAccessToken = async () => {
     await apiClient.post(`/${API_ENDPOINTS.AUTH.REFRESH}`);
   } catch (error) {
     console.error("[postRefreshAccessToken] 요청 실패:", error);
-
-    throw error;
+    throw new Error("세션이 만료되었어요. 잠시 후 다시 시도해주세요.");
   }
 };

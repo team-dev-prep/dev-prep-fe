@@ -15,8 +15,7 @@ export const postQuestionOption = async (techCount: number, personalityCount: nu
     return response.data;
   } catch (error) {
     console.error("[postQuestionOption] 요청 실패:", error);
-
-    throw error;
+    throw new Error("인터뷰 시작 요청에 실패했어요. 잠시 후 다시 시도해주세요.");
   }
 };
 
@@ -40,8 +39,7 @@ export const postUserAnswer = async ({
     return response.data;
   } catch (error) {
     console.error("[postUserAnswer] 요청 실패:", error);
-
-    throw error;
+    throw new Error("답변 제출에 실패했어요. 네트워크 상태를 확인해주세요.");
   }
 };
 
@@ -55,7 +53,6 @@ export const getAllAnswer = async (userId: number) => {
     return response.data;
   } catch (error) {
     console.error("[getAllAnswer] 요청 실패:", error);
-
-    throw error;
+    throw new Error("답변 결과를 불러오는 데 실패했어요. 잠시 후 다시 시도해주세요.");
   }
 };

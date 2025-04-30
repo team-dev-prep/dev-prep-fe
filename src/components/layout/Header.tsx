@@ -20,10 +20,11 @@ const Header = () => {
         setUser(user);
         navigate(ROUTES.ROOT);
       } else {
-        throw new Error("유저 정보 없음");
+        throw new Error("GitHub 계정 정보를 불러올 수 없어요. 다시 로그인해주세요.");
       }
-    } catch {
+    } catch (error) {
       // GitHub OAuth로 이동
+      alert(error.message);
       redirectToGithubAuthorize();
     }
   };

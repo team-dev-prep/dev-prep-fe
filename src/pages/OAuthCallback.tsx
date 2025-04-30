@@ -13,7 +13,10 @@ const OAuthCallback = () => {
   useEffect(() => {
     const code = searchParams.get("code");
 
-    if (!code || hasCalled.current) return;
+    if (!code || hasCalled.current) {
+      alert("인증 코드가 없어요. 잠시 후 다시 시도해주세요.");
+      return;
+    }
     hasCalled.current = true;
 
     const login = async () => {
@@ -22,7 +25,7 @@ const OAuthCallback = () => {
         navigate(ROUTES.ROOT, { replace: true });
       } catch (e) {
         console.error("GitHub 로그인 실패:", e);
-        alert("로그인 실패");
+        alert("GitHub 로그인에 실패했어요. 잠시 후 다시 시도해주세요.");
         navigate(ROUTES.ROOT, { replace: true });
       }
     };
