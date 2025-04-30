@@ -23,8 +23,12 @@ const Header = () => {
         throw new Error("GitHub 계정 정보를 불러올 수 없어요. 다시 로그인해주세요.");
       }
     } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert("GitHub 로그인에 실패했어요. 잠시 후 다시 시도해주세요.");
+      }
       // GitHub OAuth로 이동
-      alert(error.message);
       redirectToGithubAuthorize();
     }
   };
