@@ -1,36 +1,16 @@
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser } from "../../api/auth";
 import { ROUTES } from "../../constants";
 import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../common";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { user, isLogin, logout, setUser } = useAuth();
+  const { user, isLogin, logout } = useAuth();
 
   const handleGithubLogin = async () => {
     if (isLogin) return navigate(ROUTES.ROOT);
-
-    try {
-      const user = await getCurrentUser();
-
-      if (user) {
-        // 서버에 사용자 정보가 있다면 자동 로그인
-        setUser(user);
-        navigate(ROUTES.ROOT);
-      } else {
-        throw new Error("GitHub 계정 정보를 불러올 수 없어요. 다시 로그인해주세요.");
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert("GitHub 로그인에 실패했어요. 잠시 후 다시 시도해주세요.");
-      }
-      // GitHub OAuth로 이동
-      redirectToGithubAuthorize();
-    }
+    redirectToGithubAuthorize();
   };
 
   const handleLogout = async () => {

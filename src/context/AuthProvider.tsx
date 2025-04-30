@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCurrentUser, postGithubLogin, postGithubLogout } from "../api/auth";
 import { LoadingFallback } from "../components/common";
 import { resetAuthState } from "../state/authState";
@@ -8,6 +8,22 @@ import { User } from "./types";
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const checkCurrentUser = async () => {
+      try {
+        setIsLoading(true);
+        const user = await getCurrentUser();
+        setUser(user);
+      } catch (error) {
+        console.warn("로그인 상태를 확인할 수 없어요.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkCurrentUser();
+  }, []);
 
   const loginWithCode = async (code: string) => {
     setIsLoading(true);
