@@ -1,20 +1,32 @@
-let isRefreshAttempted = false; // 전역에서 한 번만 refresh 시도했는지 여부 추적
-let isRefreshFailed = false; // refresh 실패 여부를 저장해 이후 me 호출을 차단
+const REFRESH_FAILED_KEY = "isRefreshFailed";
+const REFRESH_ATTEMPTED_KEY = "isRefreshAttempted";
 
+// sessionStorage 헬퍼 함수
+const getBooleanFromStorage = (key: string): boolean => {
+  if (typeof window === "undefined") return false;
+  return sessionStorage.getItem(key) === "true";
+};
+
+const setBooleanToStorage = (key: string, value: boolean) => {
+  if (typeof window === "undefined") return;
+  sessionStorage.setItem(key, value ? "true" : "false");
+};
+
+// 인증 상태 관리 함수
 export const getAuthState = () => ({
-  isRefreshAttempted,
-  isRefreshFailed: isRefreshFailed || sessionStorage.getItem("isRefreshFailed") === "true",
+  isRefreshAttempted: getBooleanFromStorage(REFRESH_ATTEMPTED_KEY),
+  isRefreshFailed: getBooleanFromStorage(REFRESH_FAILED_KEY),
 });
 
 export const markRefreshAttempted = () => {
-  isRefreshAttempted = true;
+  setBooleanToStorage(REFRESH_ATTEMPTED_KEY, true);
 };
 
 export const markRefreshFailed = () => {
-  isRefreshFailed = true;
+  setBooleanToStorage(REFRESH_FAILED_KEY, true);
 };
 
 export const resetAuthState = () => {
-  isRefreshAttempted = false;
-  isRefreshFailed = false;
+  setBooleanToStorage(REFRESH_ATTEMPTED_KEY, false);
+  setBooleanToStorage(REFRESH_FAILED_KEY, false);
 };
