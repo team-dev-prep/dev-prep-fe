@@ -19,10 +19,10 @@ const OAuthCallback = () => {
     const login = async () => {
       try {
         await loginWithCode(code);
+        navigate(ROUTES.ROOT, { replace: true });
       } catch (e) {
         console.error("GitHub 로그인 실패:", e);
         alert("로그인 실패");
-      } finally {
         navigate(ROUTES.ROOT, { replace: true });
       }
     };

@@ -28,6 +28,11 @@ const Header = () => {
     }
   };
 
+  const handleLogout = async () => {
+    await logout();
+    navigate(ROUTES.ROOT);
+  };
+
   const redirectToGithubAuthorize = () => {
     const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI;
@@ -50,7 +55,10 @@ const Header = () => {
       />
       <div>
         {isLogin ? (
-          <Button onClick={logout} className="flex items-center gap-1 text-gray8 hover:bg-blue2">
+          <Button
+            onClick={handleLogout}
+            className="flex items-center gap-1 text-gray8 hover:bg-blue2"
+          >
             <img src={user?.avatar} alt="프로필" className="size-[28px] rounded-full" />
             <p className="font-semibold">Logout</p>
           </Button>
