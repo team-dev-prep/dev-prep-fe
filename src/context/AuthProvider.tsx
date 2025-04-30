@@ -7,15 +7,18 @@ import { User } from "./types";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loginWithCode = async (code: string) => {
+    setIsLoading(true);
     try {
       await postGithubLogin(code);
       const user = await getCurrentUser();
       setUser(user);
     } catch (error) {
       throw new Error("GitHub 로그인에 실패했어요. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
