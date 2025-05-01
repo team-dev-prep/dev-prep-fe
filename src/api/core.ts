@@ -2,7 +2,12 @@
 
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
-import { getAuthState, markRefreshAttempted, markRefreshFailed } from "../state/authState";
+import {
+  getAuthState,
+  markRefreshAttempted,
+  markRefreshFailed,
+  resetAuthState,
+} from "../state/authState";
 import { postRefreshAccessToken } from "./auth";
 
 export const apiClient = axios.create({
@@ -30,6 +35,9 @@ apiClient.interceptors.response.use(
         return apiClient(originalRequest);
       } catch {
         markRefreshFailed();
+        resetAuthState();
+        alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+        window.location.href = "/";
 
         return Promise.reject(new Error("세션이 만료되었습니다. 다시 로그인해주세요."));
       }
