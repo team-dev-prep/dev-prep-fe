@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { LoadingFallback } from "../components/common";
 import { ROUTES } from "../constants";
 import { useAuth } from "../hooks/useAuth";
 
@@ -7,32 +8,31 @@ const OAuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { loginWithCode } = useAuth();
-  const calledRef = useRef(false);
 
   useEffect(() => {
     const code = searchParams.get("code");
 
-    const login = async () => {
-      if (calledRef.current) return;
-      calledRef.current = true;
+    if (!code) {
+      alert("인증 코드가 없어요. 잠시 후 다시 시도해주세요.");
+      navigate(ROUTES.ROOT, { replace: true });
+      return;
+    }
 
+    const login = async () => {
       try {
-        if (code) {
-          await loginWithCode(code);
-        } else {
-          throw new Error("Authorization code not found in URL");
-        }
-        navigate(ROUTES.ROOT);
-      } catch (e) {
-        alert("로그인 실패");
-        navigate(ROUTES.ROOT);
+        await loginWithCode(code);
+        navigate(ROUTES.ROOT, { replace: true });
+      } catch (error) {
+        console.error("GitHub 로그인 실패:", error);
+        alert((error as Error).message);
+        navigate(ROUTES.ROOT, { replace: true });
       }
     };
 
-    if (code) login();
+    login();
   }, [searchParams, navigate, loginWithCode]);
 
-  return <div className="p-4 text-center">GitHub 로그인 처리 중...</div>;
+  return <LoadingFallback message="GitHub 로그인 처리 중입니다..." />;
 };
 
 export default OAuthCallback;

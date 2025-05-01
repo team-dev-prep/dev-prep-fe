@@ -9,7 +9,7 @@ const Timer = ({ time }: TimerProps) => {
 
   useEffect(() => {
     if (remaining <= 0) {
-      alert("시간이 종료되었습니다.");
+      alert("시간이 종료되었어요. 다음 질문으로 넘어가요.");
       return;
     }
 

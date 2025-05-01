@@ -8,17 +8,26 @@ const Header = () => {
   const navigate = useNavigate();
   const { user, isLogin, logout } = useAuth();
 
-  const handleGithubLogin = () => {
+  const handleGithubLogin = async () => {
+    if (isLogin) return navigate(ROUTES.ROOT);
+    redirectToGithubAuthorize();
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate(ROUTES.ROOT);
+  };
+
+  const redirectToGithubAuthorize = () => {
     const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI;
 
     if (!clientId || !redirectUri) {
-      console.error("GitHub OAuth configuration is missing");
+      console.error("[GitHubLogin] OAuth 설정 누락");
       return;
     }
 
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user user:email`;
-
     window.location.href = githubAuthUrl;
   };
 
@@ -31,7 +40,10 @@ const Header = () => {
       />
       <div>
         {isLogin ? (
-          <Button onClick={logout} className="flex items-center gap-1 text-gray8 hover:bg-blue2">
+          <Button
+            onClick={handleLogout}
+            className="flex items-center gap-1 text-gray8 hover:bg-blue2"
+          >
             <img src={user?.avatar} alt="프로필" className="size-[28px] rounded-full" />
             <p className="font-semibold">Logout</p>
           </Button>

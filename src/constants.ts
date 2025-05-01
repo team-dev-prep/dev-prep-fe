@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
     LOGIN: "auth/github/callback",
     ME: "auth/me",
     LOGOUT: "auth/logout",
+    REFRESH: "auth/refresh",
   },
 };
 
