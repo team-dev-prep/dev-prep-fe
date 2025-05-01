@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoadingFallback } from "../components/common";
 import { ROUTES } from "../constants";
@@ -8,24 +8,23 @@ const OAuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { loginWithCode } = useAuth();
-  const hasCalled = useRef(false); // StrictMode 중복 실행 방지용
 
   useEffect(() => {
     const code = searchParams.get("code");
 
-    if (!code || hasCalled.current) {
+    if (!code) {
       alert("인증 코드가 없어요. 잠시 후 다시 시도해주세요.");
+      navigate(ROUTES.ROOT, { replace: true });
       return;
     }
-    hasCalled.current = true;
 
     const login = async () => {
       try {
         await loginWithCode(code);
         navigate(ROUTES.ROOT, { replace: true });
-      } catch (e) {
-        console.error("GitHub 로그인 실패:", e);
-        alert("GitHub 로그인에 실패했어요. 잠시 후 다시 시도해주세요.");
+      } catch (error) {
+        console.error("GitHub 로그인 실패:", error);
+        alert((error as Error).message);
         navigate(ROUTES.ROOT, { replace: true });
       }
     };

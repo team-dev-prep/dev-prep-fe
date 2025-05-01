@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCurrentUser, postGithubLogin, postGithubLogout } from "../api/auth";
 import { LoadingFallback } from "../components/common";
 import { resetAuthState } from "../state/authState";
+import { getIsLoggingIn, markLoginFinished, markLoginStarted } from "../state/loginState";
 import { AuthContext } from "./AuthContext";
 import { User } from "./types";
 
@@ -26,14 +27,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const loginWithCode = async (code: string) => {
+    if (getIsLoggingIn()) return;
+    markLoginStarted();
+
     setIsLoading(true);
+
     try {
       await postGithubLogin(code);
       const user = await getCurrentUser();
       setUser(user);
     } catch (error) {
-      throw new Error("GitHub 로그인에 실패했어요. 잠시 후 다시 시도해주세요.");
+      console.error("GitHub 로그인 실패:", error);
+      throw error;
     } finally {
+      markLoginFinished();
       setIsLoading(false);
     }
   };
