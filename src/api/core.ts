@@ -2,13 +2,10 @@
 
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
-import {
-  getAuthState,
-  markRefreshAttempted,
-  markRefreshFailed,
-  resetAuthState,
-} from "../state/authState";
+import { getAuthState, markRefreshAttempted, markRefreshFailed } from "../state/authState";
 import { postRefreshAccessToken } from "./auth";
+
+let isAlertShown = false;
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -23,23 +20,30 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const { isRefreshAttempted } = getAuthState();
+    const { isRefreshAttempted, isRefreshFailed } = getAuthState();
 
-    if (error.response?.status === 401 && !originalRequest._retry && !isRefreshAttempted) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isRefreshAttempted &&
+      !isRefreshFailed
+    ) {
       originalRequest._retry = true;
       markRefreshAttempted();
 
       try {
         await postRefreshAccessToken();
-
         return apiClient(originalRequest);
       } catch {
         markRefreshFailed();
-        resetAuthState();
-        alert("세션이 만료되었습니다. 다시 로그인해주세요.");
-        window.location.href = "/";
 
-        return Promise.reject(new Error("세션이 만료되었습니다. 다시 로그인해주세요."));
+        if (!isAlertShown) {
+          isAlertShown = true;
+          alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+          window.location.href = "/";
+        }
+
+        return Promise.reject(new Error("세션 만료로 재로그인 필요"));
       }
     }
 
@@ -47,6 +51,4 @@ apiClient.interceptors.response.use(
   },
 );
 
-apiClient.interceptors.request.use((config) => {
-  return config;
-});
+apiClient.interceptors.request.use((config) => config);
