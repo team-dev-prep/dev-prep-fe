@@ -1,35 +1,22 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { getCurrentUser, postGithubLogin, postGithubLogout } from "../api/auth";
 import { LoadingFallback } from "../components/common";
 import { resetAuthState } from "../state/authState";
-import { getIsLoggingIn, markLoginFinished, markLoginStarted } from "../state/loginState";
 import { AuthContext } from "./AuthContext";
 import { User } from "./types";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const checkCurrentUser = async () => {
-      try {
-        setIsLoading(true);
-        const user = await getCurrentUser();
-        setUser(user);
-      } catch (error) {
-        console.warn("로그인 상태를 확인할 수 없어요.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkCurrentUser();
-  }, []);
+  const lastUsedCode = useRef<string | null>(null);
 
   const loginWithCode = async (code: string) => {
-    if (getIsLoggingIn()) return;
-    markLoginStarted();
+    if (lastUsedCode.current === code) {
+      console.warn("[AuthProvider] 중복된 code로 로그인 시도 방지됨");
+      return;
+    }
 
+    lastUsedCode.current = code;
     setIsLoading(true);
 
     try {
@@ -37,10 +24,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const user = await getCurrentUser();
       setUser(user);
     } catch (error) {
-      console.error("GitHub 로그인 실패:", error);
+      console.error("[AuthProvider] GitHub 로그인 실패:", error);
       throw error;
     } finally {
-      markLoginFinished();
       setIsLoading(false);
     }
   };
@@ -48,19 +34,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     try {
       await postGithubLogout();
-
-      try {
-        await getCurrentUser();
-        alert("정상적으로 로그아웃되지 않았어요. 브라우저를 새로고침해 주세요.");
-      } catch {
-        resetAuthState();
-        setUser(null);
-      }
     } catch (error) {
-      console.warn("로그아웃 요청 자체가 실패했어요.");
+      console.warn("[AuthProvider] 로그아웃 요청 실패:", error);
       alert("서버에 로그아웃 요청을 보내지 못했어요. 잠시 후 다시 시도해주세요.");
     } finally {
-      resetAuthState();
+      setTimeout(() => {
+        resetAuthState();
+      }, 0);
       setUser(null);
     }
   };
