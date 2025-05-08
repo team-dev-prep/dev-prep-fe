@@ -16,6 +16,9 @@ export const API_ENDPOINTS = {
 
 export const ROUTES = {
   ROOT: "/",
+  PRE_OPTION: "preOption",
+  PRE_INTERVIEW: "preInterview",
+  PRE_FEEDBACK: "preFeedback",
   OPTION: "option",
   INTERVIEW: "interview",
   FEEDBACK: "feedback",
