@@ -8,12 +8,23 @@ import showToast from "../utils/toast";
 
 const InterviewSetupPage = () => {
   const navigate = useNavigate();
+
+  const [jobId, setJobId] = useState("");
   const [technicalCount, setTechnicalCount] = useState("");
   const [personalityCount, setPersonalityCount] = useState("");
-  const countOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  const jobOptions = [
+    { label: "프론트엔드", value: "0" },
+    { label: "백엔드", value: "1" },
+  ];
+  const countOptions = Array.from({ length: 10 }, (_, i) => {
+    const val = (i + 1).toString();
+    return { label: val, value: val };
+  });
 
   const mutation = useMutation({
-    mutationFn: () => postQuestionOption(Number(technicalCount), Number(personalityCount)),
+    mutationFn: () =>
+      postQuestionOption(Number(jobId), Number(personalityCount), Number(technicalCount)),
     onSuccess: (data) => {
       navigate(`/${ROUTES.INTERVIEW}`, { state: data });
     },
@@ -23,8 +34,8 @@ const InterviewSetupPage = () => {
   });
 
   const handleStartInterview = () => {
-    if (!technicalCount || !personalityCount) {
-      showToast({ type: "error", message: "질문 개수를 모두 선택해주세요." });
+    if (!jobId || !personalityCount || !technicalCount) {
+      showToast({ type: "error", message: "모든 항목을 선택해주세요." });
       return;
     }
 
@@ -36,6 +47,16 @@ const InterviewSetupPage = () => {
       {/* 옵션 선택 영역 */}
       <div className="flex flex-1 items-center justify-center">
         <div className="flex flex-col gap-[32px]">
+          <div className="flex items-center justify-center gap-[24px]">
+            <div className="text-2xl font-semibold">직무 선택</div>
+            <SelectBox
+              options={jobOptions}
+              placeholder="인터뷰를 진행할 직무를 선택하세요 (프론트/백)"
+              value={jobId}
+              onChange={setJobId}
+            />
+          </div>
+
           <div className="flex items-center justify-center gap-[24px]">
             <div className="text-2xl font-semibold">인성 질문</div>
             <SelectBox

@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
+interface SelectBoxOption {
+  label: string;
+  value: string;
+}
+
 interface SelectBoxProps {
-  options: string[];
+  options: SelectBoxOption[];
   placeholder: string;
   value: string;
   onChange: (selected: string) => void;
@@ -36,7 +41,7 @@ const SelectBox = ({ options, placeholder, value, onChange }: SelectBoxProps) =>
         className="flex w-full items-center justify-between rounded-md border border-gray4 bg-white px-4 py-2 text-base text-gray6 shadow-sm focus:outline-none"
       >
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-          {value || placeholder}
+          {options.find((opt) => opt.value === value)?.label || placeholder}
         </span>
         <span
           className={`inline-block text-xs text-gray5 transition-transform duration-200 ${
@@ -53,13 +58,13 @@ const SelectBox = ({ options, placeholder, value, onChange }: SelectBoxProps) =>
         }`}
       >
         <ul className="max-h-60 overflow-y-auto">
-          {options.map((option) => (
+          {options.map(({ label, value }) => (
             <li
-              key={option}
-              onClick={() => handleSelect(option)}
+              key={value}
+              onClick={() => handleSelect(value)}
               className="cursor-pointer px-4 py-2 text-base text-black transition-colors hover:bg-gray1"
             >
-              {option}
+              {label}
             </li>
           ))}
         </ul>

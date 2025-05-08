@@ -3,13 +3,17 @@
 import { API_ENDPOINTS } from "../constants";
 import { apiClient } from "./core";
 
-// 질문 개수 선택
-export const postQuestionOption = async (techCount: number, personalityCount: number) => {
+// 직무, 질문 개수 선택
+export const postQuestionOption = async (
+  jobId: number,
+  personalityCount: number,
+  techCount: number,
+) => {
   try {
     const response = await apiClient.post(`/${API_ENDPOINTS.QUESTION}`, {
-      techCount,
+      jobId,
       personalityCount,
-      jobId: 0, // 현재는 무조건 프론트엔드
+      techCount,
     });
 
     return response.data;

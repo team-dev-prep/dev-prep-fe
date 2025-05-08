@@ -16,6 +16,19 @@ const InterviewPage = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
 
+  const moveToNext = () => {
+    if (currentQuestionIndex === questions.length - 1) {
+      showToast({
+        type: "success",
+        message: "모든 답변이 성공적으로 제출되었어요. 결과 페이지로 이동할게요.",
+      });
+      navigate(`/${ROUTES.FEEDBACK}`, { state: { userId } });
+    } else {
+      setCurrentQuestionIndex((prev) => prev + 1);
+      setAnswer("");
+    }
+  };
+
   // 답변 제출 API
   const mutation = useMutation({
     mutationFn: () =>
@@ -24,18 +37,7 @@ const InterviewPage = () => {
         questionId: currentQuestion.id,
         userAnswer: answer,
       }),
-    onSuccess: () => {
-      if (currentQuestionIndex === questions.length - 1) {
-        showToast({
-          type: "success",
-          message: "모든 답변이 성공적으로 제출되었어요. 결과 페이지로 이동할게요.",
-        });
-        navigate(`/${ROUTES.FEEDBACK}`, { state: { userId } });
-      } else {
-        setCurrentQuestionIndex((prev) => prev + 1);
-        setAnswer("");
-      }
-    },
+    onSuccess: () => moveToNext(),
     onError: (error) => {
       showToast({ type: "error", message: (error as Error).message });
     },
