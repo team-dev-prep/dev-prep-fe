@@ -9,7 +9,7 @@ interface ShowToastProps {
 }
 
 const showToast = ({ type, message }: ShowToastProps) => {
-  toast.custom((id) => <CustomToast type={type} message={message} />);
+  toast.custom(() => <CustomToast type={type} message={message} />);
 };
 
 export default showToast;
