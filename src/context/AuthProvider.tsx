@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { getCurrentUser, postGithubLogin, postGithubLogout } from "../api/auth";
 import { LoadingFallback } from "../components/common";
 import { resetAuthState } from "../state/authState";
+import showToast from "../utils/toast";
 import { AuthContext } from "./AuthContext";
 import { User } from "./types";
 
@@ -36,7 +37,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await postGithubLogout();
     } catch (error) {
       console.warn("[AuthProvider] 로그아웃 요청 실패:", error);
-      alert("서버에 로그아웃 요청을 보내지 못했어요. 잠시 후 다시 시도해주세요.");
+      showToast({
+        type: "error",
+        message: "서버에 로그아웃 요청을 보내지 못했어요. 잠시 후 다시 시도해주세요.",
+      });
     } finally {
       setTimeout(() => {
         resetAuthState();

@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoadingFallback } from "../components/common";
 import { ROUTES } from "../constants";
 import { useAuth } from "../hooks/useAuth";
+import showToast from "../utils/toast";
 
 const OAuthCallback = () => {
   const [searchParams] = useSearchParams();
@@ -14,7 +15,7 @@ const OAuthCallback = () => {
     const code = searchParams.get("code");
 
     if (!code) {
-      alert("인증 코드가 없어요. 잠시 후 다시 시도해주세요.");
+      showToast({ type: "error", message: "인증 코드가 없어요. 잠시 후 다시 시도해주세요." });
       navigate(ROUTES.ROOT, { replace: true });
       return;
     }
@@ -32,7 +33,7 @@ const OAuthCallback = () => {
         navigate(ROUTES.ROOT, { replace: true });
       } catch (error) {
         console.error("[OAuthCallback] 로그인 실패:", error);
-        alert((error as Error).message);
+        showToast({ type: "error", message: (error as Error).message });
         navigate(ROUTES.ROOT, { replace: true });
       }
     };

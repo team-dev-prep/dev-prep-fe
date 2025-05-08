@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { postQuestionOption } from "../api/question";
 import { Button, SelectBox } from "../components/common";
 import { ROUTES } from "../constants";
+import showToast from "../utils/toast";
 
 const InterviewSetupPage = () => {
   const navigate = useNavigate();
@@ -17,13 +18,13 @@ const InterviewSetupPage = () => {
       navigate(`/${ROUTES.INTERVIEW}`, { state: data });
     },
     onError: (error) => {
-      alert((error as Error).message);
+      showToast({ type: "error", message: (error as Error).message });
     },
   });
 
   const handleStartInterview = () => {
     if (!technicalCount || !personalityCount) {
-      alert("질문 개수를 모두 선택해주세요.");
+      showToast({ type: "error", message: "질문 개수를 모두 선택해주세요." });
       return;
     }
 

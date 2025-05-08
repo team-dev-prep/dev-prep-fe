@@ -3,6 +3,7 @@
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
 import { getAuthState, markRefreshAttempted, markRefreshFailed } from "../state/authState";
+import showToast from "../utils/toast";
 import { postRefreshAccessToken } from "./auth";
 
 let isAlertShown = false;
@@ -39,7 +40,7 @@ apiClient.interceptors.response.use(
 
         if (!isAlertShown) {
           isAlertShown = true;
-          alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+          showToast({ type: "warning", message: "세션이 만료되었습니다. 다시 로그인해주세요." });
           window.location.href = "/";
         }
 

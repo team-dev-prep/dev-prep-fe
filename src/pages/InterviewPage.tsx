@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { postUserAnswer } from "../api/question";
 import { AnswerInput, Button, Counter, Question, Timer } from "../components/common";
 import { ROUTES } from "../constants";
+import showToast from "../utils/toast";
 
 const InterviewPage = () => {
   const navigate = useNavigate();
@@ -25,7 +26,10 @@ const InterviewPage = () => {
       }),
     onSuccess: () => {
       if (currentQuestionIndex === questions.length - 1) {
-        alert("모든 답변이 성공적으로 제출되었어요. 결과 페이지로 이동할게요.");
+        showToast({
+          type: "success",
+          message: "모든 답변이 성공적으로 제출되었어요. 결과 페이지로 이동할게요.",
+        });
         navigate(`/${ROUTES.FEEDBACK}`, { state: { userId } });
       } else {
         setCurrentQuestionIndex((prev) => prev + 1);
@@ -33,7 +37,7 @@ const InterviewPage = () => {
       }
     },
     onError: (error) => {
-      alert((error as Error).message);
+      showToast({ type: "error", message: (error as Error).message });
     },
   });
 
