@@ -3,6 +3,20 @@
 import { API_ENDPOINTS } from "../constants";
 import { apiClient } from "./core";
 
+// 맛보기 로직용 직무 선택
+export const postJobIdOption = async (jobId: number) => {
+  try {
+    const response = await apiClient.post(`/${API_ENDPOINTS.PRE_QUESTION}`, {
+      jobId,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("[postJobIdOption] 요청 실패:", error);
+    throw new Error("맛보기용 인터뷰 시작 요청에 실패했어요. 잠시 후 다시 시도해주세요.");
+  }
+};
+
 // 직무, 질문 개수 선택
 export const postQuestionOption = async (
   jobId: number,
