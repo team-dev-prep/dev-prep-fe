@@ -73,7 +73,7 @@ const PreFeedbackPage = () => {
         <div className="mb-2 flex flex-col">
           <span className="py-1 font-semibold text-gray8">작성 답안</span>
           {currentItem.userAnswer.trim() === "" ? (
-            <div className="w-full resize-none rounded-lg border border-gray4 p-3 text-gray8">
+            <div className="w-full resize-none rounded-lg border border-gray4 p-3 italic text-gray6">
               ❌ 아무 입력을 하지 않았어요.
             </div>
           ) : (
@@ -82,8 +82,8 @@ const PreFeedbackPage = () => {
         </div>
         <div className="flex flex-col">
           <span className="py-1 font-semibold text-gray8">모범 답안</span>
-          {currentItem.modelAnswer.trim() === "" ? (
-            <div className="w-full resize-none rounded-lg border border-gray4 p-3 italic text-gray5">
+          {(currentItem.modelAnswer ?? "").trim() === "" ? (
+            <div className="w-full resize-none rounded-lg border border-gray4 bg-gray2 p-3 italic text-gray6">
               ❗ 모범 답안이 제공되지 않았어요.
             </div>
           ) : (

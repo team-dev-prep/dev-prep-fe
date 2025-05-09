@@ -18,13 +18,15 @@ const PreInterviewPage = () => {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
-  const [userAnswers, setUserAnswers] = useState<string[]>([]);
+  const [userAnswers, setUserAnswers] = useState<string[]>(new Array(total).fill(""));
 
   const currentQuestion = questions[currentQuestionIndex];
 
   // 다음 질문으로 넘어가거나 마지막이면 결과 페이지로 이동
   const handleNext = () => {
     const updatedAnswers = [...userAnswers, answer];
+    updatedAnswers[currentQuestionIndex] = answer;
+
     const isLast = currentQuestionIndex === questions.length - 1;
 
     if (isLast) {
@@ -32,7 +34,7 @@ const PreInterviewPage = () => {
         id: q.id,
         content: q.content,
         modelAnswer: q.modelAnswer,
-        userAnswer: updatedAnswers[i],
+        userAnswer: updatedAnswers[i] ?? "",
       }));
 
       showToast({ type: "info", message: "모든 답변이 제출되었어요. 결과 페이지로 이동합니다." });
@@ -43,7 +45,7 @@ const PreInterviewPage = () => {
     } else {
       setUserAnswers(updatedAnswers);
       setCurrentQuestionIndex((prev) => prev + 1);
-      setAnswer("");
+      setAnswer(updatedAnswers[currentQuestionIndex + 1] ?? "");
     }
   };
 
