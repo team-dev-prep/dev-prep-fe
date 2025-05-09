@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AnswerInput, Button, Counter, Modal, ModelAnswer, Question } from "../components/common";
 import { ROUTES } from "../constants";
+import redirectToGithubAuthorize from "../utils/oauth";
 
 const PreFeedbackPage = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const PreFeedbackPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // 결과가 없을 경우 홈으로 이동
   useEffect(() => {
     if (!results || !totalCount) {
       navigate(ROUTES.ROOT, { replace: true });
@@ -20,17 +22,15 @@ const PreFeedbackPage = () => {
   const currentItem = results?.[currentQuestionIndex];
   if (!currentItem) return null;
 
-  const redirectToGithubAuthorize = () => {
-    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-    const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI;
+  // 다음 질문으로 넘어가거나 마지막이면 모달 오픈
+  const handleNextOrExit = () => {
+    const isLast = currentQuestionIndex === results.length - 1;
 
-    if (!clientId || !redirectUri) {
-      console.error("[GitHubLogin] OAuth 설정 누락");
-      return;
+    if (isLast) {
+      setIsModalOpen(true);
+    } else {
+      setCurrentQuestionIndex((prev) => prev + 1);
     }
-
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=read:user user:email`;
-    window.location.href = githubAuthUrl;
   };
 
   return (
@@ -38,7 +38,7 @@ const PreFeedbackPage = () => {
       className="mx-auto flex h-full w-full max-w-[1200px] flex-col"
       style={{ height: "calc(100vh - 130px)" }}
     >
-      {/* 모달 */}
+      {/* 회원가입 유도 모달 */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -67,7 +67,7 @@ const PreFeedbackPage = () => {
         }
       />
 
-      {/* 피드백 페이지 */}
+      {/* 피드백 본문 영역 */}
       <div className="flex w-full max-w-[1200px] flex-1 flex-col px-4 py-6">
         <Question text={currentItem.content} />
         <div className="mb-2 flex flex-col">
@@ -79,23 +79,17 @@ const PreFeedbackPage = () => {
           <ModelAnswer text={currentItem.modelAnswer} />
         </div>
       </div>
+
+      {/* 하단 네비게이션 영역 */}
       <div className="flex w-full max-w-[1200px] items-center justify-between p-4 pt-6">
         <div className="flex-1"></div>
         <Counter current={currentQuestionIndex + 1} total={totalCount} />
         <div className="flex flex-1 justify-end">
-          {currentQuestionIndex === results.length - 1 ? (
-            <Button
-              label="나가기"
-              onClick={() => setIsModalOpen(true)}
-              className="bg-blue3 text-lg text-white shadow-md"
-            />
-          ) : (
-            <Button
-              label="다음"
-              onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
-              className="bg-blue3 text-lg text-white shadow-md"
-            />
-          )}
+          <Button
+            label={currentQuestionIndex === results.length - 1 ? "나가기" : "다음"}
+            onClick={handleNextOrExit}
+            className="bg-blue3 text-lg text-white shadow-md"
+          />
         </div>
       </div>
     </div>
