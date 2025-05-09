@@ -14,6 +14,7 @@ const InterviewPage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [canSubmit, setCanSubmit] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false); // 중복 제출 방지용 플래그
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -41,20 +42,32 @@ const InterviewPage = () => {
         questionId: currentQuestion.id,
         userAnswer: answer,
       }),
-    onSuccess: () => moveToNext(),
+    onSuccess: () => {
+      moveToNext();
+    },
     onError: (error) => {
       showToast({ type: "error", message: (error as Error).message });
     },
   });
 
-  // 버튼 활성화 타이머 (30초)
+  // 질문 전환 시 버튼 및 제출 상태 초기화
   useEffect(() => {
+    setHasSubmitted(false);
+    setCanSubmit(false);
+
     const timer = setTimeout(() => {
       setCanSubmit(true);
     }, 30000);
 
     return () => clearTimeout(timer);
   }, [currentQuestionIndex]);
+
+  const handleAutoSubmit = () => {
+    if (!hasSubmitted) {
+      setHasSubmitted(true);
+      mutation.mutate();
+    }
+  };
 
   return (
     <div
@@ -69,9 +82,7 @@ const InterviewPage = () => {
           onBeforeEnd={() => {
             showToast({ type: "info", message: "10초 후에 다음 질문으로 넘어갑니다!" });
           }}
-          onTimeOver={() => {
-            mutation.mutate();
-          }}
+          onTimeOver={handleAutoSubmit}
         />
       </div>
 
@@ -97,7 +108,10 @@ const InterviewPage = () => {
             label={currentQuestionIndex === questions.length - 1 ? "결과 보기" : "다음"}
             onClick={(event) => {
               event.preventDefault();
-              mutation.mutate();
+              if (!hasSubmitted) {
+                setHasSubmitted(true);
+                mutation.mutate();
+              }
             }}
             className="bg-blue3 text-lg text-white shadow-md"
             disabled={!canSubmit}

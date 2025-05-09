@@ -54,7 +54,13 @@ const FeedbackPage = () => {
         <Question text={currentItem.content} />
         <div className="mb-2 flex flex-col">
           <span className="py-1 font-semibold text-gray8">작성 답안</span>
-          <AnswerInput value={currentItem.userAnswer} readOnly={true} />
+          {currentItem.userAnswer.trim() === "" ? (
+            <div className="w-full resize-none rounded-lg border border-gray4 p-3 text-gray8">
+              ❌ 아무 입력을 하지 않았어요.
+            </div>
+          ) : (
+            <AnswerInput value={currentItem.userAnswer} readOnly={true} />
+          )}
         </div>
         <div className="flex flex-col">
           <span className="py-1 font-semibold text-gray8">모범 답안</span>
