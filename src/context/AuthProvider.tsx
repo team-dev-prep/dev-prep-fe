@@ -7,10 +7,11 @@ import { AuthContext } from "./AuthContext";
 import { User } from "./types";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const lastUsedCode = useRef<string | null>(null);
+  const [user, setUser] = useState<User | null>(null); // 현재 로그인한 사용자 정보
+  const [isLoading, setIsLoading] = useState(false); // 로그인 처리 중 로딩 상태
+  const lastUsedCode = useRef<string | null>(null); // 중복 로그인 요청 방지를 위한 code 추적
 
+  // GitHub OAuth 로그인
   const loginWithCode = async (code: string) => {
     if (lastUsedCode.current === code) {
       console.warn("[AuthProvider] 중복된 code로 로그인 시도 방지됨");
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // 로그아웃 처리
   const logout = async () => {
     try {
       await postGithubLogout();
@@ -49,6 +51,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // 로딩 중에는 fallback 컴포넌트 보여줌
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center">
+        <LoadingFallback message="로그인 상태 확인 중입니다..." />
+      </div>
+    );
+  }
+
+  // 로그인 상태 컨텍스트 전역 제공
   return (
     <AuthContext.Provider
       value={{
@@ -59,13 +71,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         loginWithCode,
       }}
     >
-      {isLoading ? (
-        <div className="flex min-h-screen flex-col items-center justify-center">
-          <LoadingFallback message="로그인 상태 확인 중입니다..." />
-        </div>
-      ) : (
-        children
-      )}
+      {children}
     </AuthContext.Provider>
   );
 };
