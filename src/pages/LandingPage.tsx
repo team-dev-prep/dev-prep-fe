@@ -8,6 +8,7 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const { isLogin } = useAuth();
 
+  // 시작하기 버튼 클릭 시 로그인 여부에 따라 경로 분기
   const handleStartClick = () => {
     if (isLogin) {
       showToast({ type: "info", message: "이미 로그인 상태입니다. 본 인터뷰로 이동합니다." });

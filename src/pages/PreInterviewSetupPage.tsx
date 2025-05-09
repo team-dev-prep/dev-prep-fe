@@ -9,13 +9,16 @@ import showToast from "../utils/toast";
 const PreInterviewSetupPage = () => {
   const navigate = useNavigate();
 
+  // 직무 선택 상태
   const [jobId, setJobId] = useState("");
 
+  // 직무 옵션 리스트
   const jobOptions = [
     { label: "프론트엔드", value: "0" },
     { label: "백엔드", value: "1" },
   ];
 
+  // 직무 기반 질문 요청 API
   const mutation = useMutation({
     mutationFn: () => postJobIdOption(Number(jobId)),
     onSuccess: (data) => {
@@ -26,6 +29,7 @@ const PreInterviewSetupPage = () => {
     },
   });
 
+  // 시작 버튼 클릭 시 처리
   const handleStartInterview = () => {
     if (!jobId) {
       showToast({ type: "error", message: "직무를 선택해주세요." });

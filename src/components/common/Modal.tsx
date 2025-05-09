@@ -32,6 +32,7 @@ const Modal = ({ isOpen, onClose, title, content, actions }: ModalProps) => {
 
   if (!isOpen || !mounted) return null;
 
+  // 포탈을 붙일 DOM 요소
   const portalRoot = document.getElementById("modal-root");
   if (!portalRoot) {
     console.error("modal-root가 HTML에 없습니다.");

@@ -8,6 +8,7 @@ import { postRefreshAccessToken } from "./auth";
 
 let isAlertShown = false;
 
+// 공통 API 클라이언트
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -52,4 +53,5 @@ apiClient.interceptors.response.use(
   },
 );
 
+// 요청 인터셉터
 apiClient.interceptors.request.use((config) => config);

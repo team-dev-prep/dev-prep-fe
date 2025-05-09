@@ -9,10 +9,12 @@ import showToast from "../utils/toast";
 const InterviewSetupPage = () => {
   const navigate = useNavigate();
 
+  // 선택된 옵션 상태
   const [jobId, setJobId] = useState("");
   const [technicalCount, setTechnicalCount] = useState("");
   const [personalityCount, setPersonalityCount] = useState("");
 
+  // 드롭다운 옵션
   const jobOptions = [
     { label: "프론트엔드", value: "0" },
     { label: "백엔드", value: "1" },
@@ -22,6 +24,7 @@ const InterviewSetupPage = () => {
     return { label: val, value: val };
   });
 
+  // 질문 요청 API 호출
   const mutation = useMutation({
     mutationFn: () =>
       postQuestionOption(Number(jobId), Number(personalityCount), Number(technicalCount)),
@@ -33,6 +36,7 @@ const InterviewSetupPage = () => {
     },
   });
 
+  // 모든 항목이 선택됐을 때만 인터뷰 시작
   const handleStartInterview = () => {
     if (!jobId || !personalityCount || !technicalCount) {
       showToast({ type: "error", message: "모든 항목을 선택해주세요." });
