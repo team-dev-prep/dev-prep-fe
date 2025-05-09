@@ -3,10 +3,12 @@
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
 import { getAuthState, markRefreshAttempted, markRefreshFailed } from "../state/authState";
+import showToast from "../utils/toast";
 import { postRefreshAccessToken } from "./auth";
 
 let isAlertShown = false;
 
+// 공통 API 클라이언트
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -39,7 +41,7 @@ apiClient.interceptors.response.use(
 
         if (!isAlertShown) {
           isAlertShown = true;
-          alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+          showToast({ type: "warning", message: "세션이 만료되었습니다. 다시 로그인해주세요." });
           window.location.href = "/";
         }
 
@@ -51,4 +53,5 @@ apiClient.interceptors.response.use(
   },
 );
 
+// 요청 인터셉터
 apiClient.interceptors.request.use((config) => config);

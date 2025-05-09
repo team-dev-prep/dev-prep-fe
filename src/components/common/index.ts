@@ -1,7 +1,10 @@
 export { default as AnswerInput } from "./AnswerInput";
+export { default as AuthButton } from "./AuthButton";
 export { default as Button } from "./Button";
 export { default as Counter } from "./Counter";
+export { default as CustomToast } from "./CustomToast";
 export { default as LoadingFallback } from "./LoadingFallback";
+export { default as Modal } from "./Modal";
 export { default as ModelAnswer } from "./ModelAnswer";
 export { default as Question } from "./Question";
 export { default as SelectBox } from "./SelectBox";

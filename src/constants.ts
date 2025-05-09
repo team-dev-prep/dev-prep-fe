@@ -2,6 +2,7 @@ export const API_BASE_URL =
   import.meta.env.VITE_MOCK_MODE === "true" ? "" : import.meta.env.VITE_API_BASE_URL;
 
 export const API_ENDPOINTS = {
+  PRE_QUESTION: "prequestion",
   QUESTION: "question",
   ANSWERS: "answers",
   RESULT: "result",
@@ -15,6 +16,9 @@ export const API_ENDPOINTS = {
 
 export const ROUTES = {
   ROOT: "/",
+  PRE_OPTION: "preOption",
+  PRE_INTERVIEW: "preInterview",
+  PRE_FEEDBACK: "preFeedback",
   OPTION: "option",
   INTERVIEW: "interview",
   FEEDBACK: "feedback",

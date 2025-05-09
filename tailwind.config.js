@@ -28,6 +28,7 @@ export default {
         gray7: "var(--color-gray7)",
         gray8: "var(--color-gray8)",
         black: "var(--color-black)",
+        "black-60": "rgba(0, 0, 0, 0.6)",
         background: "var(--color-background)",
         blue1: "var(--color-blue1)",
         blue2: "var(--color-blue2)",
