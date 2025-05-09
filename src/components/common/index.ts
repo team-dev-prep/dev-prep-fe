@@ -1,4 +1,5 @@
 export { default as AnswerInput } from "./AnswerInput";
+export { default as AuthButton } from "./AuthButton";
 export { default as Button } from "./Button";
 export { default as Counter } from "./Counter";
 export { default as CustomToast } from "./CustomToast";
