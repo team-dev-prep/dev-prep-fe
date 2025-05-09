@@ -2,15 +2,23 @@ import { useEffect, useState } from "react";
 
 interface TimerProps {
   time: number;
+  onTimeOver?: () => void;
+  onBeforeEnd?: () => void;
 }
 
-const Timer = ({ time }: TimerProps) => {
+const Timer = ({ time, onTimeOver, onBeforeEnd }: TimerProps) => {
   const [remaining, setRemaining] = useState(time);
+  const [notified, setNotified] = useState(false);
 
   useEffect(() => {
     if (remaining <= 0) {
-      alert("시간이 종료되었어요. 다음 질문으로 넘어가요.");
+      onTimeOver?.();
       return;
+    }
+
+    if (remaining === 10 && !notified) {
+      onBeforeEnd?.();
+      setNotified(true);
     }
 
     const interval = setInterval(() => {
@@ -18,7 +26,7 @@ const Timer = ({ time }: TimerProps) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [remaining]);
+  }, [remaining, onTimeOver, onBeforeEnd, notified]);
 
   const minutes = String(Math.floor(remaining / 60)).padStart(2, "0");
   const seconds = String(remaining % 60).padStart(2, "0");

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { postUserAnswer } from "../api/question";
 import { AnswerInput, Button, Counter, Question, Timer } from "../components/common";
@@ -13,6 +13,7 @@ const InterviewPage = () => {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
+  const [canSubmit, setCanSubmit] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -46,6 +47,15 @@ const InterviewPage = () => {
     },
   });
 
+  // 버튼 활성화 타이머 (30초)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCanSubmit(true);
+    }, 30000);
+
+    return () => clearTimeout(timer);
+  }, [currentQuestionIndex]);
+
   return (
     <div
       className="mx-auto flex w-full max-w-[1200px] flex-col"
@@ -53,7 +63,16 @@ const InterviewPage = () => {
     >
       {/* 타이머 영역 */}
       <div className="flex w-full justify-center py-6">
-        <Timer key={currentQuestion.id} time={currentQuestion.time} />
+        <Timer
+          key={currentQuestion.id}
+          time={currentQuestion.time}
+          onBeforeEnd={() => {
+            showToast({ type: "info", message: "10초 후에 다음 질문으로 넘어갑니다!" });
+          }}
+          onTimeOver={() => {
+            mutation.mutate();
+          }}
+        />
       </div>
 
       {/* 질문 및 답변 입력 영역 */}
@@ -81,6 +100,7 @@ const InterviewPage = () => {
               mutation.mutate();
             }}
             className="bg-blue3 text-lg text-white shadow-md"
+            disabled={!canSubmit}
           />
         </div>
       </div>
