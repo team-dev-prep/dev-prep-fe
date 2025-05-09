@@ -64,7 +64,13 @@ const FeedbackPage = () => {
         </div>
         <div className="flex flex-col">
           <span className="py-1 font-semibold text-gray8">모범 답안</span>
-          <ModelAnswer text={currentItem.modelAnswer} />
+          {currentItem.modelAnswer.trim() === "" ? (
+            <div className="w-full resize-none rounded-lg border border-gray4 p-3 italic text-gray5">
+              ❗ 모범 답안이 제공되지 않았어요.
+            </div>
+          ) : (
+            <ModelAnswer text={currentItem.modelAnswer} />
+          )}
         </div>
       </div>
 
