@@ -21,7 +21,7 @@ const ICON_MAP = {
 
 const CustomToast = ({ type, message }: CustomToastProps) => {
   return (
-    <div className="flex max-w-md items-center gap-2 rounded-md bg-white px-4 py-3 shadow-md">
+    <div className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-3 shadow-md">
       <div className="shrink-0">{ICON_MAP[type]}</div>
       <div className="flex-1 whitespace-nowrap text-sm">{message}</div>
     </div>
