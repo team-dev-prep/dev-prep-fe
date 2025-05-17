@@ -13,6 +13,17 @@ const OAuthCallback = () => {
 
   useEffect(() => {
     const code = searchParams.get("code");
+    const state = searchParams.get("state");
+    const savedState = sessionStorage.getItem("oauth_state");
+
+    sessionStorage.removeItem("oauth_state");
+
+    // state가 없을 경우 홈으로 리디렉션
+    if (!state || state !== savedState) {
+      showToast({ type: "error", message: "보안 검증에 실패했습니다. 다시 시도해주세요." });
+      navigate(ROUTES.ROOT, { replace: true });
+      return;
+    }
 
     // 인증 코드가 없을 경우 홈으로 리디렉션
     if (!code) {
