@@ -24,8 +24,10 @@ const PreInterviewPage = () => {
 
   // 다음 질문으로 넘어가거나 마지막이면 결과 페이지로 이동
   const handleNext = () => {
-    const updatedAnswers = [...userAnswers, answer];
+    const updatedAnswers = [...userAnswers];
     updatedAnswers[currentQuestionIndex] = answer;
+
+    setUserAnswers(updatedAnswers);
 
     const isLast = currentQuestionIndex === questions.length - 1;
 
@@ -43,7 +45,6 @@ const PreInterviewPage = () => {
         state: { results: feedbackData, totalCount: total },
       });
     } else {
-      setUserAnswers(updatedAnswers);
       setCurrentQuestionIndex((prev) => prev + 1);
       setAnswer(updatedAnswers[currentQuestionIndex + 1] ?? "");
     }
