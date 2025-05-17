@@ -1,45 +1,38 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postQuestionOption } from "../api/question";
+import { postJobIdOption } from "../api/question";
 import { Button, SelectBox } from "../components/common";
 import { ROUTES } from "../constants";
 import showToast from "../utils/toast";
 
-const InterviewSetupPage = () => {
+const PreInterviewSetupPage = () => {
   const navigate = useNavigate();
 
-  // 선택된 옵션 상태
+  // 직무 선택 상태
   const [jobId, setJobId] = useState("");
-  const [technicalCount, setTechnicalCount] = useState("");
-  const [personalityCount, setPersonalityCount] = useState("");
 
-  // 드롭다운 옵션
+  // 직무 옵션 리스트
   const jobOptions = [
     { label: "프론트엔드", value: "0" },
     { label: "백엔드", value: "1" },
   ];
-  const countOptions = Array.from({ length: 10 }, (_, i) => {
-    const val = (i + 1).toString();
-    return { label: val, value: val };
-  });
 
-  // 질문 요청 API 호출
+  // 직무 기반 질문 요청 API
   const mutation = useMutation({
-    mutationFn: () =>
-      postQuestionOption(Number(jobId), Number(personalityCount), Number(technicalCount)),
+    mutationFn: () => postJobIdOption(Number(jobId)),
     onSuccess: (data) => {
-      navigate(`/${ROUTES.INTERVIEW}`, { state: data });
+      navigate(`/${ROUTES.PRE_INTERVIEW}`, { state: data });
     },
     onError: (error) => {
       showToast({ type: "error", message: (error as Error).message });
     },
   });
 
-  // 모든 항목이 선택됐을 때만 인터뷰 시작
+  // 시작 버튼 클릭 시 처리
   const handleStartInterview = () => {
-    if (!jobId || !personalityCount || !technicalCount) {
-      showToast({ type: "error", message: "모든 항목을 선택해주세요." });
+    if (!jobId) {
+      showToast({ type: "error", message: "직무를 선택해주세요." });
       return;
     }
 
@@ -60,26 +53,6 @@ const InterviewSetupPage = () => {
               onChange={setJobId}
             />
           </div>
-
-          <div className="flex items-center justify-center gap-[24px]">
-            <div className="text-2xl font-semibold">인성 질문</div>
-            <SelectBox
-              options={countOptions}
-              placeholder="인성 질문 개수를 선택하세요 (최대 10개)"
-              value={personalityCount}
-              onChange={setPersonalityCount}
-            />
-          </div>
-
-          <div className="flex items-center justify-center gap-[24px]">
-            <div className="text-2xl font-semibold">기술 질문</div>
-            <SelectBox
-              options={countOptions}
-              placeholder="기술 질문 개수를 선택하세요 (최대 10개)"
-              value={technicalCount}
-              onChange={setTechnicalCount}
-            />
-          </div>
         </div>
       </div>
 
@@ -95,4 +68,4 @@ const InterviewSetupPage = () => {
   );
 };
 
-export default InterviewSetupPage;
+export default PreInterviewSetupPage;

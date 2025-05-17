@@ -1,44 +1,33 @@
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getAllAnswer } from "../api/question";
-import { AnswerInput, Button, Counter, ModelAnswer, Question } from "../components/common";
+import { AnswerInput, Button, Counter, Modal, ModelAnswer, Question } from "../components/common";
 import { ROUTES } from "../constants";
+import redirectToGithubAuthorize from "../utils/oauth";
 
-const FeedbackPage = () => {
+const PreFeedbackPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { userId, interviewId } = location.state;
-
-  // userId가 없으면 홈으로 리다이렉트
-  useEffect(() => {
-    if (!userId) {
-      navigate(ROUTES.ROOT, { replace: true });
-    }
-  }, [userId, navigate]);
+  const { results, totalCount } = location.state ?? {};
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 답변 데이터 불러오기
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["answerResult", userId],
-    queryFn: () => getAllAnswer({ userId, interviewId }),
-    enabled: !!userId,
-  });
+  // 결과가 없을 경우 홈으로 이동
+  useEffect(() => {
+    if (!results || !totalCount) {
+      navigate(ROUTES.ROOT, { replace: true });
+    }
+  }, [results, totalCount, navigate]);
 
-  // 로딩 및 에러 처리
-  if (isLoading) return <p>로딩 중...</p>;
-  if (isError || !data) return <p>답변을 불러오는 데 실패했습니다.</p>;
+  const currentItem = results?.[currentQuestionIndex];
+  if (!currentItem) return null;
 
-  const { totalCount, results } = data;
-  const currentItem = results[currentQuestionIndex];
-
-  // 다음 질문으로 이동하거나 마지막엔 홈으로
+  // 다음 질문으로 넘어가거나 마지막이면 모달 오픈
   const handleNextOrExit = () => {
     const isLast = currentQuestionIndex === results.length - 1;
 
     if (isLast) {
-      navigate(ROUTES.ROOT);
+      setIsModalOpen(true);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
@@ -49,7 +38,36 @@ const FeedbackPage = () => {
       className="mx-auto flex h-full w-full max-w-[1200px] flex-col"
       style={{ height: "calc(100vh - 130px)" }}
     >
-      {/* 질문 및 답변 표시 영역 */}
+      {/* 회원가입 유도 모달 */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="지금, 더 깊이 있는 인터뷰 경험을 시작해보세요"
+        content={
+          <>
+            <p className="mb-2">지금 회원가입하면,</p>
+            <ul className="list-disc pl-5">
+              <li>다양한 직무 및 난이도의 질문을 자유롭게 선택할 수 있습니다.</li>
+              <li>AI 분석 기반의 구조화된 피드백으로 역량을 성장시켜보세요.</li>
+            </ul>
+          </>
+        }
+        actions={
+          <>
+            <Button
+              className="border border-blue3 bg-blue3 text-white"
+              onClick={() => redirectToGithubAuthorize()}
+            >
+              회원가입 후 인터뷰 이어가기
+            </Button>
+            <Button className="border border-gray4 text-blue3" onClick={() => navigate("/")}>
+              홈으로 돌아가기
+            </Button>
+          </>
+        }
+      />
+
+      {/* 피드백 본문 영역 */}
       <div className="flex w-full max-w-[1200px] flex-1 flex-col px-4 py-6">
         <Question text={currentItem.content} />
         <div className="mb-2 flex flex-col">
@@ -64,7 +82,7 @@ const FeedbackPage = () => {
         </div>
         <div className="flex flex-col">
           <span className="py-1 font-semibold text-gray8">모범 답안</span>
-          {currentItem.modelAnswer.trim() === "" ? (
+          {(currentItem.modelAnswer ?? "").trim() === "" ? (
             <div className="w-full resize-none rounded-lg border border-gray4 bg-gray2 p-3 italic text-gray6">
               ❗ 모범 답안이 제공되지 않았어요.
             </div>
@@ -90,4 +108,4 @@ const FeedbackPage = () => {
   );
 };
 
-export default FeedbackPage;
+export default PreFeedbackPage;

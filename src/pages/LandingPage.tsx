@@ -1,9 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/common";
 import { ROUTES } from "../constants";
+import { useAuth } from "../hooks/useAuth";
+import showToast from "../utils/toast";
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { isLogin } = useAuth();
+
+  // 시작하기 버튼 클릭 시 로그인 여부에 따라 경로 분기
+  const handleStartClick = () => {
+    if (isLogin) {
+      showToast({ type: "info", message: "이미 로그인 상태입니다. 본 인터뷰로 이동합니다." });
+      navigate(`/${ROUTES.OPTION}`);
+    } else {
+      navigate(`/${ROUTES.PRE_OPTION}`);
+    }
+  };
 
   return (
     <div
@@ -22,12 +35,10 @@ const LandingPage = () => {
         </p>
       </section>
 
-      {/* 버튼 영역 */}
+      {/* 시작하기 버튼 */}
       <Button
-        label="시작하기"
-        onClick={() => {
-          navigate(`/${ROUTES.OPTION}`);
-        }}
+        label={isLogin ? "바로 인터뷰 시작하기" : "시작하기 (맛보기)"}
+        onClick={handleStartClick}
         className="bg-blue3 text-2xl font-semibold text-white shadow-md"
       />
 
