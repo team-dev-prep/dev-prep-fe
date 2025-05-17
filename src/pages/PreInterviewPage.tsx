@@ -4,7 +4,7 @@ import { AnswerInput, Button, Counter, Question, Timer } from "../components/com
 import { ROUTES } from "../constants";
 import showToast from "../utils/toast";
 
-interface Question {
+interface PreQuestion {
   id: number;
   content: string;
   modelAnswer: string;
@@ -32,7 +32,7 @@ const PreInterviewPage = () => {
     const isLast = currentQuestionIndex === questions.length - 1;
 
     if (isLast) {
-      const feedbackData = questions.map((q: Question, i: number) => ({
+      const feedbackData = questions.map((q: PreQuestion, i: number) => ({
         id: q.id,
         content: q.content,
         modelAnswer: q.modelAnswer,
