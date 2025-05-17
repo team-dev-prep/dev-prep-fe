@@ -41,7 +41,7 @@ const Modal = ({ isOpen, onClose, title, content, actions }: ModalProps) => {
 
   return createPortal(
     <div
-      className="bg-black-60 fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black-60"
       onClick={onClose}
     >
       <div
@@ -50,7 +50,10 @@ const Modal = ({ isOpen, onClose, title, content, actions }: ModalProps) => {
       >
         {/* 닫기 버튼*/}
         <div className="flex justify-end">
-          <button onClick={onClose} className="cursor w-fit text-sm text-gray8 hover:underline">
+          <button
+            onClick={onClose}
+            className="w-fit cursor-pointer text-sm text-gray8 hover:underline"
+          >
             닫기
           </button>
         </div>
