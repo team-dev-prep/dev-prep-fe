@@ -8,7 +8,7 @@ import { ROUTES } from "../constants";
 const FeedbackPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const userId = location.state?.userId;
+  const { userId, interviewId } = location.state;
 
   // userId가 없으면 홈으로 리다이렉트
   useEffect(() => {
@@ -22,7 +22,7 @@ const FeedbackPage = () => {
   // 답변 데이터 불러오기
   const { data, isLoading, isError } = useQuery({
     queryKey: ["answerResult", userId],
-    queryFn: () => getAllAnswer(userId),
+    queryFn: () => getAllAnswer({ userId, interviewId }),
     enabled: !!userId,
   });
 

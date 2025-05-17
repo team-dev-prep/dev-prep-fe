@@ -9,7 +9,7 @@ import showToast from "../utils/toast";
 const InterviewPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { userId, totalCount, questions } = location.state;
+  const { userId, interviewId, totalCount, questions } = location.state;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
@@ -27,7 +27,7 @@ const InterviewPage = () => {
         type: "success",
         message: "모든 답변이 성공적으로 제출되었어요. 결과 페이지로 이동할게요.",
       });
-      navigate(`/${ROUTES.FEEDBACK}`, { state: { userId } });
+      navigate(`/${ROUTES.FEEDBACK}`, { state: { userId, interviewId } });
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
       setAnswer("");
@@ -39,6 +39,7 @@ const InterviewPage = () => {
     mutationFn: () =>
       postUserAnswer({
         userId,
+        interviewId,
         questionId: currentQuestion.id,
         userAnswer: answer,
       }),
@@ -57,7 +58,7 @@ const InterviewPage = () => {
 
     const timer = setTimeout(() => {
       setCanSubmit(true);
-    }, 30000);
+    }, 3000); // 출시 전까지는 3초로 진행
 
     return () => clearTimeout(timer);
   }, [currentQuestionIndex]);

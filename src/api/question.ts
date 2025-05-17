@@ -40,16 +40,19 @@ export const postQuestionOption = async (
 // 답변 제출
 export const postUserAnswer = async ({
   userId,
+  interviewId,
   questionId,
   userAnswer,
 }: {
   userId: number;
+  interviewId: number;
   questionId: number;
   userAnswer: string;
 }) => {
   try {
     const response = await apiClient.post(`/${API_ENDPOINTS.ANSWERS}`, {
       userId,
+      interviewId,
       questionId,
       userAnswer,
     });
@@ -62,10 +65,16 @@ export const postUserAnswer = async ({
 };
 
 // 모든 질문 및 답안 조회
-export const getAllAnswer = async (userId: number) => {
+export const getAllAnswer = async ({
+  userId,
+  interviewId,
+}: {
+  userId: number;
+  interviewId: number;
+}) => {
   try {
     const response = await apiClient.get(`/${API_ENDPOINTS.RESULT}`, {
-      params: { userId },
+      params: { userId, interviewId },
     });
 
     return response.data;
