@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { formatTime } from "../../utils/formatTime";
 
 interface TimerProps {
   time: number;
@@ -29,12 +28,13 @@ const Timer = ({ time, onTimeOver, onBeforeEnd }: TimerProps) => {
     return () => clearInterval(interval);
   }, [remaining, onTimeOver, onBeforeEnd, notified]);
 
-  const timeText = formatTime(remaining);
+  const minutes = String(Math.floor(remaining / 60)).padStart(2, "0");
+  const seconds = String(remaining % 60).padStart(2, "0");
 
   return (
     <div className="flex flex-col items-center">
       <div className="flex h-[100px] w-[200px] items-center justify-center rounded-lg border-2 border-solid border-gray3 bg-gray2 font-keania text-5xl shadow-md">
-        {timeText}
+        {minutes}:{seconds}
       </div>
       <p className="mt-2 text-sm text-gray8">! 주어진 시간 내에 질문에 대한 답을 작성하세요 !</p>
     </div>
